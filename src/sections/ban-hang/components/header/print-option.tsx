@@ -37,6 +37,7 @@ export default function PrintOption() {
       </IconButton>
 
       <CustomPopover
+        hiddenArrow
         open={popover.open}
         onClose={popover.onClose}
         sx={{

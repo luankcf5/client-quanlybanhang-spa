@@ -53,7 +53,7 @@ export default function KeyboardOption() {
         </Tooltip>
       </IconButton>
 
-      <CustomPopover open={popover.open} onClose={popover.onClose}>
+      <CustomPopover hiddenArrow open={popover.open} onClose={popover.onClose}>
         <Stack spacing={1}>
           {keyboards.map((keyboard, index) => (
             <MenuItem key={index}>
