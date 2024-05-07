@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
 import PrintOption from './print-option';
-import SearchProduct from './search-product';
+import SearchInvoice from './search-invoice';
 import InvoiceChange from './invoice-change';
 import KeyboardOption from './keyboard-option';
 
@@ -21,7 +21,7 @@ export default function BanHangHeader() {
         padding: 1,
       }}
     >
-      <SearchProduct />
+      <SearchInvoice />
 
       <InvoiceChange />
 

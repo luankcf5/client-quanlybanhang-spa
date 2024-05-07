@@ -3,7 +3,7 @@ import { HomeView } from 'src/sections/home/view';
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Phần mềm thi trực tuyến IIT',
+  title: 'Phần mềm bán hàng IIT',
 };
 
 export default function HomePage() {

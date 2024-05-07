@@ -1,15 +1,17 @@
 'use client';
 
-import MainLayout from 'src/layouts/main';
+import { useEffect } from 'react';
 
-import HomeHero from '../home-hero';
+import { paths } from 'src/routes/paths';
+import { useRouter } from 'src/routes/hooks';
 
 // ----------------------------------------------------------------------
 
 export default function HomeView() {
-  return (
-    <MainLayout>
-      <HomeHero />
-    </MainLayout>
-  );
+  const { push } = useRouter();
+
+  useEffect(() => {
+    push(paths.dashboard.sale.root);
+  }, [push]);
+  return null;
 }

@@ -12,7 +12,7 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function SearchProduct() {
+export default function SearchInvoice() {
   const handleAddNewSalesProduct = (value: any) => {
     if (value) {
       console.log(value);
@@ -26,13 +26,13 @@ export default function SearchProduct() {
       getOptionLabel={(option) => option.name}
       isOptionEqualToValue={(option, value) => option.id === value.id}
       renderInput={(params) => (
-        <TextField {...params} variant="filled" label="Tìm kiếm mặt hàng..." margin="none" />
+        <TextField {...params} size="small" placeholder="Tìm kiếm hoá đơn..." margin="none" />
       )}
       onChange={(event, value) => handleAddNewSalesProduct(value)}
       renderOption={renderOption}
       sx={{
         bgcolor: 'background.default',
-        borderRadius: 1,
+        borderRadius: 0.5,
         width: {
           xs: '100%',
           md: 350,
