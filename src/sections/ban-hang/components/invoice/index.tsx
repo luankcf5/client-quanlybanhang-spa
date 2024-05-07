@@ -71,7 +71,11 @@ export default function Invoice() {
                 </Stack>
               </Stack>
 
-              {product.note && <Typography variant="body2">{product.note}</Typography>}
+              {product.note && (
+                <Typography variant="caption" fontStyle="italic">
+                  <strong>Ghi chú: </strong> {product.note}
+                </Typography>
+              )}
             </Card>
           ))}
         </Stack>
