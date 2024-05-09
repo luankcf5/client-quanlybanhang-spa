@@ -15,7 +15,7 @@ import NavToggleButton from '../common/nav-toggle-button';
 export default function NavMini() {
   const navData = useNavData();
 
-  const role = sessionStorage.getItem('role');
+  const role = 'teacher';
 
   return (
     <Box

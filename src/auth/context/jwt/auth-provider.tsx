@@ -71,7 +71,6 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
 
 const STORAGE_ACCESS_TOKEN_KEY = 'accessToken';
 const STORAGE_REFRESH_TOKEN_KEY = 'refreshToken';
-const STORAGE_ROLE_KEY = 'role';
 
 type Props = {
   children: React.ReactNode;
@@ -85,14 +84,12 @@ export function AuthProvider({ children }: Props) {
       const accessToken = sessionStorage.getItem(STORAGE_ACCESS_TOKEN_KEY);
       const refreshToken = sessionStorage.getItem(STORAGE_REFRESH_TOKEN_KEY);
 
-      const role = sessionStorage.getItem(STORAGE_ROLE_KEY);
-
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken, refreshToken);
 
-        const res = await axios.get(`/${role}s/me`);
+        const res = await axios.get(endpoints.auth.me);
 
-        const user = { id: res.data.id, username: res.data.username, name: res.data.name, role };
+        const user = res.data;
 
         dispatch({
           type: Types.INITIAL,
@@ -127,38 +124,29 @@ export function AuthProvider({ children }: Props) {
   }, [initialize]);
 
   // LOGIN
-  const login = useCallback(
-    async (username: string, password: string, type: string, classId: string) => {
-      const data = {
-        username,
-        password,
-        classId: +classId,
-      };
-      await sessionStorage.setItem(STORAGE_ROLE_KEY, type);
+  const login = useCallback(async (username: string, password: string) => {
+    const data = {
+      username,
+      password,
+    };
 
-      const res = await axios.post(endpoints.auth.login, data, {
-        headers: {
-          as: type,
+    const res = await axios.post(endpoints.auth.login, data);
+
+    const { accessToken, refreshToken, user } = res.data;
+
+    setSession(accessToken, 'test');
+
+    dispatch({
+      type: Types.LOGIN,
+      payload: {
+        user: {
+          ...user,
+          accessToken,
+          role: 'teacher',
         },
-      });
-
-      const { accessToken, refreshToken, user } = res.data;
-
-      setSession(accessToken, refreshToken);
-
-      dispatch({
-        type: Types.LOGIN,
-        payload: {
-          user: {
-            ...user,
-            accessToken,
-            role: type,
-          },
-        },
-      });
-    },
-    []
-  );
+      },
+    });
+  }, []);
 
   // REGISTER
   const register = useCallback(

@@ -25,12 +25,14 @@ export default function Invoice() {
 
   return (
     <Stack justifyContent="space-between">
-      <Scrollbar sx={{ height: 'calc(100vh - 232px)' }}>
+      <Scrollbar
+        sx={{ height: 'calc(100vh - 232px)', backgroundColor: (theme) => theme.palette.grey[100] }}
+      >
         <Stack
           component={MotionContainer}
           variants={varSlide().inDown}
           spacing={1}
-          sx={{ padding: 1, height: '100%', backgroundColor: (theme) => theme.palette.grey[100] }}
+          sx={{ padding: 1, height: '100%' }}
         >
           {products.map((product: any) => (
             <Card key={product.id} sx={{ padding: 0.75 }}>

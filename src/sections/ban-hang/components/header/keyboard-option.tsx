@@ -1,5 +1,4 @@
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -48,9 +47,7 @@ export default function KeyboardOption() {
   return (
     <>
       <IconButton size="large" onClick={popover.onOpen}>
-        <Tooltip title="Phím tắt">
-          <Iconify color="white" icon="ooui:keyboard" />
-        </Tooltip>
+        <Iconify color="white" icon="ooui:keyboard" />
       </IconButton>
 
       <CustomPopover hiddenArrow open={popover.open} onClose={popover.onClose}>

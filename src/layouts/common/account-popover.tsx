@@ -4,6 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
+import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -112,21 +113,21 @@ export default function AccountPopover() {
         <CardActionArea>
           <ListItem>
             <ListItemAvatar>
-              <Avatar
-                src={user?.photoURL}
-                alt={user?.displayName}
-                sx={{
-                  width: 40,
-                  height: 40,
-                  border: (theme) => `solid 1px ${theme.palette.primary.light}`,
-                }}
-              >
-                {user?.name?.charAt(0).toUpperCase()}
-              </Avatar>
+              <Badge variant="online" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+                <Avatar
+                  src="/assets/images/default_avatar.png"
+                  alt={user?.displayName}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    border: (theme) => `solid 1px ${theme.palette.primary.light}`,
+                  }}
+                />
+              </Badge>
             </ListItemAvatar>
 
             <ListItemText
-              primary={user?.name}
+              primary={user?.profile?.name}
               secondary={user?.username}
               primaryTypographyProps={{
                 typography: 'body2',

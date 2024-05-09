@@ -1,6 +1,5 @@
 import Stack from '@mui/material/Stack';
 import Select from '@mui/material/Select';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
@@ -31,9 +30,7 @@ export default function PrintOption() {
   return (
     <>
       <IconButton size="large" onClick={popover.onOpen}>
-        <Tooltip title="Thiết lập máy in">
-          <Iconify color="white" icon="mingcute:print-fill" />
-        </Tooltip>
+        <Iconify color="white" icon="mingcute:print-fill" />
       </IconButton>
 
       <CustomPopover

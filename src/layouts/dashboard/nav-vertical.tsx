@@ -29,7 +29,7 @@ export default function NavVertical({ openNav, onCloseNav }: Props) {
 
   const navData = useNavData();
 
-  const role = sessionStorage.getItem('role');
+  const role = 'teacher';
 
   useEffect(() => {
     if (openNav) {

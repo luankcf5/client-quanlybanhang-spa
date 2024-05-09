@@ -7,7 +7,6 @@ export default function LoadingScreen({ sx, ...other }: BoxProps) {
   return (
     <Box
       sx={{
-        px: 5,
         width: 1,
         flexGrow: 1,
         minHeight: 1,
@@ -18,7 +17,7 @@ export default function LoadingScreen({ sx, ...other }: BoxProps) {
       }}
       {...other}
     >
-      <LinearProgress color="inherit" sx={{ width: 1, maxWidth: 360 }} />
+      <LinearProgress color="primary" sx={{ width: 1, maxWidth: '100%' }} />
     </Box>
   );
 }

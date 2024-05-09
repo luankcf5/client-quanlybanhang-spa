@@ -18,7 +18,7 @@ type RoleBasedGuardProp = {
 };
 
 export default function RoleBasedGuard({ hasContent, roles, children, sx }: RoleBasedGuardProp) {
-  const currentRole = sessionStorage.getItem('role') || '';
+  const currentRole = 'teacher';
 
   if (typeof roles !== 'undefined' && !roles.includes(currentRole)) {
     return hasContent ? (

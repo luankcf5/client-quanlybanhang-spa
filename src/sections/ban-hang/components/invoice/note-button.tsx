@@ -31,8 +31,9 @@ export default function NoteButton({ productId, note }: Props) {
 
   const handleReset = useCallback(() => {
     onAddNote(productId, '');
+    setNoteValue('');
     popover.onClose();
-  }, [onAddNote, noteValue, popover]);
+  }, [onAddNote, setNoteValue, noteValue, popover]);
   return (
     <>
       <IconButtonAnimate color="primary" onClick={popover.onOpen}>

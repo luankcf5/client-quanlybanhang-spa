@@ -20,7 +20,7 @@ function NavHorizontal() {
 
   const navData = useNavData();
 
-  const role = sessionStorage.getItem('role');
+  const role = 'teacher';
 
   return (
     <AppBar

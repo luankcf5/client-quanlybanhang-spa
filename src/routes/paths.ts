@@ -38,9 +38,14 @@ export const paths = {
       list: `${ROOTS.DASHBOARD}/quan-ly-quyen-han/danh-sach-quyen-han`,
       grant: `${ROOTS.DASHBOARD}/quan-ly-quyen-han/cap-quyen-nguoi-dung`,
     },
+    store: {
+      root: `${ROOTS.DASHBOARD}/quan-ly-cua-hang`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-cua-hang/danh-sach-cua-hang`,
+    },
     product: {
       root: `${ROOTS.DASHBOARD}/quan-ly-san-pham`,
-      list: `${ROOTS.DASHBOARD}/danh-sach-san-pham`,
+      category: `${ROOTS.DASHBOARD}/quan-ly-san-pham/danh-muc-san-pham`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-san-pham/danh-sach-san-pham`,
     },
     order: {
       root: `${ROOTS.DASHBOARD}/quan-ly-don-hang`,

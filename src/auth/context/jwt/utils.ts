@@ -70,21 +70,11 @@ export const setSession = (accessToken: string | null, refreshToken: string | nu
 // Xử lý refresh token
 export const setRefreshToken = async () => {
   const token = sessionStorage.getItem('refreshToken');
-  const role = sessionStorage.getItem('role');
 
   if (token) {
-    const response = await axios.post(
-      endpoints.auth.refreshToken,
-      {
-        token,
-      },
-
-      {
-        headers: {
-          as: role,
-        },
-      }
-    );
+    const response = await axios.post(endpoints.auth.refreshToken, {
+      token,
+    });
     const { accessToken, refreshToken } = response.data;
     setSession(accessToken, refreshToken);
   } else {

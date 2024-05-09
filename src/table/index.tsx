@@ -116,7 +116,8 @@ export default function TableData({ exams, selectedExam, setSelectedExam }: Prop
         variant: 'error',
       });
     }
-  }, [table_selected_row, table_config, axios, onDeleteRow, enqueueSnackbar]);
+    setValue('table_selected_row', null);
+  }, [table_selected_row, table_config, axios, setValue, onDeleteRow, enqueueSnackbar]);
 
   // ----------------------------------------------------------------------
 
@@ -208,7 +209,6 @@ export default function TableData({ exams, selectedExam, setSelectedExam }: Prop
                 size="small"
                 startIcon={<Iconify icon="material-symbols-light:add-notes-sharp" />}
                 onClick={() => onForm(true)}
-                disabled
               >
                 Thêm mới
               </Button>
@@ -221,9 +221,8 @@ export default function TableData({ exams, selectedExam, setSelectedExam }: Prop
                 size="small"
                 startIcon={<Iconify icon="mdi:table-add" />}
                 onClick={() => onMultiForm(true)}
-                disabled
               >
-                Nhập file
+                Import
               </Button>
             )}
           </Stack>
