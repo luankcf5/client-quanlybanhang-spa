@@ -1,11 +1,11 @@
-import TranscriptView from 'src/sections/transcript/my-transcript/transcript-view';
+import BanHang from 'src/sections/ban-hang';
 
 // ----------------------------------------------------------------------
 
 export const metadata = {
-  title: 'Điểm kết quả bài thi',
+  title: 'Chức năng bán hàng',
 };
 
 export default function OverviewAppPage() {
-  return <TranscriptView />;
+  return <BanHang />;
 }

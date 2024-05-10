@@ -69,16 +69,20 @@ export default function JwtLoginView() {
   });
 
   const renderHead = (
-    <Stack spacing={2} alignItems="center" sx={{ mb: 5 }}>
-      <Typography variant="h4">Đăng nhập tài khoản</Typography>
+    <Stack spacing={2} alignItems="center" sx={{ mb: 3 }}>
+      <Typography variant="h4" color="primary" fontWeight={800}>
+        PHẦN MỀM BÁN HÀNG IIT
+      </Typography>
+      <Typography variant="h6">Đăng nhập tài khoản</Typography>
     </Stack>
   );
 
   const renderForm = (
     <Stack spacing={2.5}>
-      <RHFTextField name="username" label="Tên đăng nhập..." />
+      <RHFTextField fullWidth name="username" label="Tên đăng nhập..." />
 
       <RHFTextField
+        fullWidth
         name="password"
         label="Mật khẩu..."
         type={password.value ? 'text' : 'password'}
@@ -107,7 +111,7 @@ export default function JwtLoginView() {
   );
 
   return (
-    <>
+    <Stack>
       {renderHead}
 
       {!!errorMsg && (
@@ -116,9 +120,16 @@ export default function JwtLoginView() {
         </Alert>
       )}
 
+      {!errorMsg && (
+        <Alert severity="info" sx={{ mb: 3 }}>
+          Sử dụng tài khoản được cấp bởi IIT để đăng nhập. Hotline hỗ trợ{' '}
+          <strong>0368 909 968</strong>.
+        </Alert>
+      )}
+
       <FormProvider methods={methods} onSubmit={onSubmit}>
         {renderForm}
       </FormProvider>
-    </>
+    </Stack>
   );
 }

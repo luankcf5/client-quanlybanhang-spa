@@ -14,11 +14,11 @@ export default function Action() {
 
       <Stack direction="row" spacing={0.5}>
         <Button variant="contained" size="small" color="warning">
-          In lại
+          Trả hàng
         </Button>
 
         <Button variant="contained" size="small" color="secondary">
-          Cập nhật
+          Tạm tính
         </Button>
 
         <Button variant="contained" size="small" color="primary">

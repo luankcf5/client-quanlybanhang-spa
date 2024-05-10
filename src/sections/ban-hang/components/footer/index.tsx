@@ -43,7 +43,7 @@ export default function BanHangFooter() {
         <Box sx={{ flexGrow: 1 }} />
 
         <Typography variant="subtitle2" fontWeight="bold" sx={{ mr: 1.5 }}>
-          CÔNG TY CỔ PHẦN IIT © 2024
+          Bản quyền công ty cổ phần IIT © 2024
         </Typography>
       </Stack>
     </Box>

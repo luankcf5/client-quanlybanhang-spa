@@ -6,6 +6,8 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { fCurrency } from 'src/utils/format-number';
 
 import Iconify from 'src/components/iconify';
@@ -13,8 +15,12 @@ import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
 import { varSlide, MotionContainer } from 'src/components/animate';
 
-import NoteButton from './note-button';
+import NoteProduct from './note-product';
+import NoteInvoice from './note-invoice';
 import { useSaleContext } from '../../context';
+import VoucherInvoice from './voucher-invoice';
+import DeliveryInvoice from './delivery-invoice';
+import ProductAttributes from './product-attributes';
 import IconButtonAnimate from './icon-button-animate';
 import IncrementerButton from '../../common/incrementer-button';
 
@@ -22,6 +28,8 @@ import IncrementerButton from '../../common/incrementer-button';
 
 export default function Invoice() {
   const { products, onChangeQuantity, onRemoveProduct } = useSaleContext();
+
+  const openAttributes = useBoolean();
 
   return (
     <Stack justifyContent="space-between">
@@ -64,7 +72,11 @@ export default function Invoice() {
                   />
 
                   <Stack direction="row">
-                    <NoteButton productId={product.id} note={product.note} />
+                    <IconButtonAnimate onClick={openAttributes.onToggle}>
+                      <Iconify icon={openAttributes.value ? 'bxs:up-arrow' : 'bxs:down-arrow'} />
+                    </IconButtonAnimate>
+
+                    <NoteProduct productId={product.id} note={product.note} />
 
                     <IconButtonAnimate color="error" onClick={() => onRemoveProduct(product.id)}>
                       <Iconify icon="material-symbols:delete" />
@@ -78,6 +90,7 @@ export default function Invoice() {
                   <strong>Ghi chú: </strong> {product.note}
                 </Typography>
               )}
+              {openAttributes.value && <ProductAttributes attributes={product.attributes} />}
             </Card>
           ))}
         </Stack>
@@ -85,21 +98,15 @@ export default function Invoice() {
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: 1 }}>
         <Typography variant="subtitle2" fontWeight="bold">
-          Tổng tiền: {fCurrency(sumBy(products, (prod: any) => prod.quantity * prod.price))}
+          Tổng tiền: {fCurrency(sumBy(products, (prod: any) => prod.quantity * prod.price)) || '0đ'}
         </Typography>
 
         <Stack direction="row" spacing={0.5}>
-          <IconButtonAnimate>
-            <Iconify icon="iconamoon:delivery-fast-fill" />
-          </IconButtonAnimate>
+          <DeliveryInvoice />
 
-          <IconButtonAnimate>
-            <Iconify icon="mdi:voucher" />
-          </IconButtonAnimate>
+          <VoucherInvoice />
 
-          <IconButtonAnimate>
-            <Iconify icon="material-symbols:note-alt" />
-          </IconButtonAnimate>
+          <NoteInvoice />
 
           <IconButtonAnimate>
             <Iconify icon="raphael:customer" />

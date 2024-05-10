@@ -1,12 +1,16 @@
+import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { alpha, useTheme } from '@mui/material/styles';
 
+import { useResponsive } from 'src/hooks/use-responsive';
+
 import { bgGradient } from 'src/theme/css';
 
 import Logo from 'src/components/logo';
+import Image from 'src/components/image';
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +20,8 @@ type Props = {
 
 export default function AuthClassicLayout({ children }: Props) {
   const theme = useTheme();
+
+  const mdUp = useResponsive('up', 'md');
 
   return (
     <Stack
@@ -49,12 +55,20 @@ export default function AuthClassicLayout({ children }: Props) {
         sx={{
           width: 1,
           mx: 'auto',
-          maxWidth: { xs: 'auto', md: 480 },
-          minWidth: { xs: 'auto', md: 480 },
+          maxWidth: { xs: 'auto', md: 920 },
+          minWidth: { xs: 'auto', md: 920 },
           p: { xs: 4, md: 8 },
         }}
       >
-        {children}
+        <Box
+          display="grid"
+          gridTemplateColumns={{ xs: 'repeat(1, 1fr)', md: 'repeat(2, 1fr)' }}
+          gap={5}
+        >
+          {mdUp && <Image src="/assets/images/sale_hero.png" />}
+
+          {children}
+        </Box>
       </Paper>
 
       <Typography

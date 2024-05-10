@@ -28,9 +28,9 @@ export default function InvoiceChange() {
         sx={{ width: 280 }}
       >
         <Scrollbar sx={{ height: 320 }}>
-          {_invoice.map((invoce) => (
-            <MenuItem>
-              <ListItemText primary={invoce.name} secondary={invoce.totalPrice} />
+          {_invoice.map((invoice) => (
+            <MenuItem key={invoice.id}>
+              <ListItemText primary={invoice.name} secondary={invoice.totalPrice} />
             </MenuItem>
           ))}
         </Scrollbar>

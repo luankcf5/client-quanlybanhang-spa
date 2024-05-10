@@ -19,7 +19,7 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { exportToExcel, readExcelFile } from 'src/utils/xlsx';
 
-import { createStudents } from 'src/api/student';
+import { createStores } from 'src/api/store';
 import { useTableContext } from 'src/table/context';
 
 import { useSnackbar } from 'src/components/snackbar';
@@ -75,7 +75,7 @@ export default function MultiForm() {
   const onSubmit = useCallback(async () => {
     try {
       isLoading.onTrue();
-      const students = await createStudents(importData);
+      const students = await createStores(importData);
       onCreateNewManyRow(students);
       isLoading.onFalse();
       enqueueSnackbar('Đã thêm dữ liệu học sinh mới !');

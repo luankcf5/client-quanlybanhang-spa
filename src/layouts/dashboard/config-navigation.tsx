@@ -106,11 +106,6 @@ export function useNavData() {
               },
             ],
           },
-        ],
-      },
-      {
-        subheader: 'Quản lý bán hàng',
-        items: [
           {
             title: 'Quản lý cửa hàng',
             path: paths.dashboard.store.root,
@@ -123,6 +118,11 @@ export function useNavData() {
               },
             ],
           },
+        ],
+      },
+      {
+        subheader: 'Quản lý bán hàng',
+        items: [
           {
             title: 'Quản lý sản phẩm',
             path: paths.dashboard.product.root,

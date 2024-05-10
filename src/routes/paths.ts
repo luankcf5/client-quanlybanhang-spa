@@ -19,6 +19,10 @@ export const paths = {
     sale: {
       root: `${ROOTS.DASHBOARD}/ban-hang`,
     },
+    account: {
+      root: `${ROOTS.DASHBOARD}/quan-ly-tai-khoan`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-tai-khoan/danh-sach-tai-khoan`,
+    },
     staff: {
       root: `${ROOTS.DASHBOARD}/quan-ly-nhan-vien`,
       list: `${ROOTS.DASHBOARD}/quan-ly-nhan-vien/danh-sach-nhan-vien`,

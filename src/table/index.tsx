@@ -6,14 +6,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
-import FormControl from '@mui/material/FormControl';
 import {
   DataGrid,
   GridColDef,
@@ -36,19 +32,11 @@ import { useSnackbar } from 'src/components/snackbar';
 import EmptyContent from 'src/components/empty-content';
 import { ConfirmDialog } from 'src/components/custom-dialog';
 
-import { IExam } from 'src/types/exam';
-
 import { StyledBadge } from './styled';
 import { useTableContext } from './context';
 import ShortcutAction from './actions/shortcut-action';
 
 // ----------------------------------------------------------------------
-
-type Props = {
-  exams?: IExam[];
-  selectedExam?: number | string;
-  setSelectedExam?: (id: number | string) => void;
-};
 
 const HIDE_COLUMNS = {
   id: false,
@@ -56,7 +44,7 @@ const HIDE_COLUMNS = {
 
 const HIDE_COLUMNS_TOGGLABLE = ['id', 'actions'];
 
-export default function TableData({ exams, selectedExam, setSelectedExam }: Props) {
+export default function TableData() {
   const { enqueueSnackbar } = useSnackbar();
 
   const {
@@ -184,24 +172,6 @@ export default function TableData({ exams, selectedExam, setSelectedExam }: Prop
       <Card>
         <Stack direction="row" justifyContent="space-between" sx={{ m: 1.5 }} spacing={1}>
           <Stack direction="row" spacing={1}>
-            {exams && setSelectedExam && (
-              <FormControl sx={{ width: 220 }}>
-                <InputLabel size="small">Lựa chọn bài thi</InputLabel>
-                <Select
-                  size="small"
-                  label="Lựa chọn bài thi"
-                  value={selectedExam}
-                  onChange={(event) => setSelectedExam(event.target.value)}
-                >
-                  {exams.map((exam) => (
-                    <MenuItem key={exam.id} value={exam.id}>
-                      {exam.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-
             {add_data && (
               <Button
                 variant="contained"

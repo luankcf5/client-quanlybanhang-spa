@@ -1,62 +1,63 @@
 import React, { useState, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
+import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
-import { useSaleContext } from '../../context';
 import IconButtonAnimate from './icon-button-animate';
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  productId: number;
-  note: string;
-};
-
-export default function NoteButton({ productId, note }: Props) {
-  const { onAddNote } = useSaleContext();
-
+export default function NoteInvoice() {
   const popover = usePopover();
 
-  const [noteValue, setNoteValue] = useState(note);
-
-  const handleAddNote = useCallback(() => {
-    onAddNote(productId, noteValue);
-    popover.onClose();
-  }, [onAddNote, noteValue, popover]);
+  const [noteValue, setNoteValue] = useState('');
 
   const handleReset = useCallback(() => {
-    onAddNote(productId, '');
     setNoteValue('');
     popover.onClose();
-  }, [onAddNote, setNoteValue, noteValue, popover]);
+  }, [setNoteValue, popover]);
+
+  const handleAddNote = useCallback(() => {
+    popover.onClose();
+  }, [setNoteValue, popover]);
+
   return (
     <>
-      <IconButtonAnimate color="primary" onClick={popover.onOpen}>
-        <Iconify icon="fluent:note-16-filled" />
+      <IconButtonAnimate onClick={popover.onOpen}>
+        <Badge variant="dot" color="error" invisible={!noteValue}>
+          <Iconify icon="material-symbols:note-alt" />
+        </Badge>
       </IconButtonAnimate>
 
-      <CustomPopover open={popover.open} onClose={popover.onClose}>
+      <CustomPopover open={popover.open} onClose={popover.onClose} arrow="bottom-right">
         <Stack spacing={1} sx={{ padding: 1, width: 420 }}>
           <TextField
             multiline
-            rows={4}
-            placeholder="Ghi chú về sản phẩm này..."
+            rows={6}
+            size="small"
+            placeholder="Ghi chú về đơn hàng..."
             value={noteValue}
             onChange={(event) => setNoteValue(event.target.value)}
           />
 
           <Stack direction="row" justifyContent="end" spacing={1}>
-            <Button size="small" color="error" onClick={handleReset}>
+            <Button size="small" color="error" onClick={handleReset} disabled={!noteValue}>
               Xoá ghi chú
             </Button>
 
-            <Button size="small" variant="contained" color="primary" onClick={handleAddNote}>
-              Thêm mới
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={handleAddNote}
+              disabled={!noteValue}
+            >
+              Xác nhận
             </Button>
           </Stack>
         </Stack>
