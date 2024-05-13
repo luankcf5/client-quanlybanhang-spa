@@ -13,7 +13,7 @@ const icon = (name: string) => (
 );
 
 const ICONS = {
-  store: icon('ic_store'),
+  table: icon('ic_table'),
   product: icon('ic_product'),
   order: icon('ic_order'),
   permission: icon('ic_permission'),
@@ -106,23 +106,23 @@ export function useNavData() {
               },
             ],
           },
-          {
-            title: 'Quản lý cửa hàng',
-            path: paths.dashboard.store.root,
-            icon: ICONS.store,
-            children: [
-              {
-                title: 'Danh sách cửa hàng',
-                path: paths.dashboard.store.list,
-                roles: ['teacher'],
-              },
-            ],
-          },
         ],
       },
       {
         subheader: 'Quản lý bán hàng',
         items: [
+          {
+            title: 'Quản lý phòng bàn',
+            path: paths.dashboard.table.root,
+            icon: ICONS.table,
+            children: [
+              {
+                title: 'Danh sách phòng bàn',
+                path: paths.dashboard.table.list,
+                roles: ['teacher'],
+              },
+            ],
+          },
           {
             title: 'Quản lý sản phẩm',
             path: paths.dashboard.product.root,

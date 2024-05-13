@@ -42,9 +42,9 @@ export const paths = {
       list: `${ROOTS.DASHBOARD}/quan-ly-quyen-han/danh-sach-quyen-han`,
       grant: `${ROOTS.DASHBOARD}/quan-ly-quyen-han/cap-quyen-nguoi-dung`,
     },
-    store: {
-      root: `${ROOTS.DASHBOARD}/quan-ly-cua-hang`,
-      list: `${ROOTS.DASHBOARD}/quan-ly-cua-hang/danh-sach-cua-hang`,
+    table: {
+      root: `${ROOTS.DASHBOARD}/quan-ly-phong-ban`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-phong-ban/danh-sach-phong-ban`,
     },
     product: {
       root: `${ROOTS.DASHBOARD}/quan-ly-san-pham`,

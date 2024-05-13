@@ -198,7 +198,7 @@ export default function TableData() {
           </Stack>
 
           <Stack direction="row" spacing={1}>
-            {delete_multi && (
+            {change_status_multi && (
               <Tooltip title="Thay đổi trạng thái">
                 <StyledBadge
                   badgeContent={table_selected.length}
@@ -217,7 +217,7 @@ export default function TableData() {
               </Tooltip>
             )}
 
-            {change_status_multi && (
+            {delete_multi && (
               <Tooltip title="Xoá các lựa chọn">
                 <StyledBadge
                   badgeContent={table_selected.length}

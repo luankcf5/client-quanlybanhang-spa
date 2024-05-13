@@ -4,8 +4,8 @@ import { useMemo, useEffect, useReducer, useCallback } from 'react';
 
 import axios, { endpoints } from 'src/utils/axios';
 
-import { setSession } from './utils';
 import { AuthContext } from './auth-context';
+import { setSession, isValidToken } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
 
 // ----------------------------------------------------------------------
@@ -84,24 +84,10 @@ export function AuthProvider({ children }: Props) {
       const accessToken = sessionStorage.getItem(STORAGE_ACCESS_TOKEN_KEY);
       const refreshToken = sessionStorage.getItem(STORAGE_REFRESH_TOKEN_KEY);
 
-      if (accessToken) {
-        // if (accessToken && isValidToken(accessToken)) {
-        // setSession(accessToken, refreshToken);
+      if (accessToken && isValidToken(accessToken)) {
+        setSession(accessToken, refreshToken);
 
-        // const res = await axios.get(endpoints.auth.me);
-
-        const res = {
-          data: {
-            accessToken: '5423432',
-            refreshToken: 'gfdgdfg',
-            user: {
-              username: 'user01',
-              profile: {
-                name: 'Trần Minh Luân',
-              },
-            },
-          },
-        };
+        const res = await axios.get(endpoints.auth.me);
 
         const user = res.data;
 
@@ -139,29 +125,16 @@ export function AuthProvider({ children }: Props) {
 
   // LOGIN
   const login = useCallback(async (username: string, password: string) => {
-    // const data = {
-    //   username,
-    //   password,
-    // };
-
-    // const res = await axios.post(endpoints.auth.login, data);
-
-    const res = {
-      data: {
-        accessToken: '5423432',
-        refreshToken: 'gfdgdfg',
-        user: {
-          username: 'user01',
-          profile: {
-            name: 'Trần Minh Luân',
-          },
-        },
-      },
+    const data = {
+      username,
+      password,
     };
+
+    const res = await axios.post(endpoints.auth.login, data);
 
     const { accessToken, refreshToken, user } = res.data;
 
-    // setSession(accessToken, refreshToken);
+    setSession(accessToken, refreshToken);
 
     dispatch({
       type: Types.LOGIN,

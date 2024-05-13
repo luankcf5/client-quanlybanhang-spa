@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -10,11 +12,14 @@ import { SaleProvider } from './context';
 import Invoice from './components/invoice';
 import BanHangFooter from './components/footer';
 import BanHangHeader from './components/header';
+import TableRoom from './components/table-room';
 import ProductContainer from './components/product';
 
 // ----------------------------------------------------------------------
 
 export default function BanHang() {
+  const [tabView, setTabView] = useState('1');
+
   return (
     <SaleProvider>
       <RoleBasedGuard hasContent roles={['teacher']}>
@@ -26,15 +31,18 @@ export default function BanHang() {
         >
           <Stack height="100%" justifyContent="space-between">
             <BanHangHeader />
-            <Grid container sx={{ p: 1, height: '100%' }}>
-              <Grid xs={12} md={6}>
-                <Invoice />
+            {tabView === '1' && (
+              <Grid container sx={{ p: 1, height: '100%' }}>
+                <Grid xs={12} md={6}>
+                  <Invoice />
+                </Grid>
+                <Grid xs={12} md={6}>
+                  <ProductContainer />
+                </Grid>
               </Grid>
-              <Grid xs={12} md={6}>
-                <ProductContainer />
-              </Grid>
-            </Grid>
-            <BanHangFooter />
+            )}
+            {tabView === '2' && <TableRoom />}
+            <BanHangFooter tabView={tabView} setTabView={setTabView} />
           </Stack>
         </Card>
       </RoleBasedGuard>

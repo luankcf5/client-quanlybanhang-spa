@@ -1,9 +1,6 @@
 import { GridColDef } from '@mui/x-data-grid';
-import ListItemText from '@mui/material/ListItemText';
 
 import { fDate, fDateTime } from 'src/utils/format-time';
-
-import Label from 'src/components/label';
 
 // ----------------------------------------------------------------------
 
@@ -15,37 +12,18 @@ export const baseColumns: GridColDef[] = [
   },
   {
     field: 'name',
-    headerName: 'Tên cửa hàng',
+    headerName: 'Tên danh mục',
     flex: 1,
     minWidth: 270,
     hideable: false,
-    renderCell: (params) => (
-      <ListItemText
-        primary={params.row.name}
-        secondary="Tên cửa hàng"
-        primaryTypographyProps={{
-          typography: 'body2',
-        }}
-        secondaryTypographyProps={{
-          typography: 'caption',
-        }}
-      />
-    ),
+    renderCell: (params) => params.row.name,
   },
   {
-    field: 'isActive',
-    headerName: 'Trạng thái',
-    headerAlign: 'center',
-    align: 'center',
-    hideable: false,
-    filterable: false,
+    field: 'description',
+    headerName: 'Mô tả danh mục',
     flex: 1,
-    minWidth: 160,
-    renderCell: (params) => (
-      <Label variant="soft" color={params.row.isActive ? 'success' : 'warning'}>
-        {params.row.isActive ? 'Đang hoạt động' : 'Đã vô hiệu hoá'}
-      </Label>
-    ),
+    minWidth: 270,
+    renderCell: (params) => params.row.description,
   },
   {
     type: 'date',

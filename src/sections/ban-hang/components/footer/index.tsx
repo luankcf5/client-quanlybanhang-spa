@@ -1,7 +1,3 @@
-// ----------------------------------------------------------------------
-
-import { useState } from 'react';
-
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -11,9 +7,14 @@ import Typography from '@mui/material/Typography';
 
 import Iconify from 'src/components/iconify';
 
-export default function BanHangFooter() {
-  const [tabView, setTabView] = useState('1');
+// ----------------------------------------------------------------------
 
+type Props = {
+  tabView: string;
+  setTabView: (tab: string) => void;
+};
+
+export default function BanHangFooter({ tabView, setTabView }: Props) {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTabView(newValue);
   };

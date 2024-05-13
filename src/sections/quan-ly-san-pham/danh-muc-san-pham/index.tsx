@@ -3,9 +3,9 @@
 import { useEffect } from 'react';
 
 import TableData from 'src/table';
-import { _account } from 'src/_mock/_account';
 import { RoleBasedGuard } from 'src/auth/guard';
 import { useTableContext } from 'src/table/context';
+import { useGetCategories } from 'src/api/category';
 
 import Form from './form';
 import { mapper } from './functions';
@@ -14,32 +14,34 @@ import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
 
-export default function DanhSachTaiKhoan() {
+export default function DanhMucSanPham() {
+  const { categories } = useGetCategories();
+
   const { setValues } = useTableContext();
 
   useEffect(() => {
     setValues({
-      table_data: mapper(_account),
+      table_data: mapper(categories),
       table_column: baseColumns,
       table_selected: [],
-      table_export_data: _account.map((account) => ({
-        id: account.id,
-        'Tên đăng nhập': account.user_name,
+      table_export_data: categories.map((category) => ({
+        id: category.id,
+        'Tên danh mục': category.name,
       })),
       table_config: {
-        table_name: 'account',
+        table_name: 'categories',
         add_data: true,
-        add_multi_data: true,
+        add_multi_data: false,
         export_data: true,
         selected_data: true,
         delete_multi: true,
-        change_status_multi: true,
-        active_row: true,
+        change_status_multi: false,
+        active_row: false,
         edit_row: true,
         delete_row: true,
       },
     });
-  }, [_account]);
+  }, [categories]);
 
   return (
     <RoleBasedGuard hasContent roles={['teacher']}>

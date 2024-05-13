@@ -29,8 +29,7 @@ export const viewport = {
 
 export const metadata = {
   title: 'Phần mềm thi trực tuyến IIT',
-  description:
-    'Phần mềm hỗ trợ giáo viên tạo bài thi trực tuyến online, quản lý lịch thi, bảng điểm...',
+  description: 'Phần mềm bán hàng sản xuất và phân phối bởi công ty cổ phần IIT',
   keywords: 'react,material,kit,application,dashboard,admin,template',
   manifest: '/manifest.json',
   icons: [

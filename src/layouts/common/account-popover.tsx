@@ -26,6 +26,8 @@ import { useRouter } from 'src/routes/hooks';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import axios, { endpoints } from 'src/utils/axios';
+
 import { useAuthContext } from 'src/auth/hooks';
 
 import Iconify from 'src/components/iconify';
@@ -93,17 +95,26 @@ export default function AccountPopover() {
   });
 
   const {
+    reset,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      enqueueSnackbar('Đã cập nhật mật khẩu thành công !');
+      if (data.newPassword === data.rePassword) {
+        await axios.patch(endpoints.auth.password, data);
+        changePassword.onFalse();
+        popover.onClose();
+        reset();
+        enqueueSnackbar('Đã cập nhật mật khẩu thành công !');
+      } else {
+        enqueueSnackbar('Mật khẩu nhập lại không đúng !', { variant: 'error' });
+      }
     } catch (error) {
-      console.error(error);
-      enqueueSnackbar(error.message || 'Đã có lỗi xảy ra ! Vui lòng thử lại !');
+      enqueueSnackbar('Mật khẩu sai, vui lòng thử lại !', {
+        variant: 'error',
+      });
     }
   });
 
@@ -127,7 +138,7 @@ export default function AccountPopover() {
             </ListItemAvatar>
 
             <ListItemText
-              primary={user?.profile?.name}
+              primary={user?.profile?.name || 'Người dùng'}
               secondary={user?.username}
               primaryTypographyProps={{
                 typography: 'body2',

@@ -31,9 +31,16 @@ export const endpoints = {
   calendar: '/api/calendar',
   auth: {
     me: '/users/me',
+    password: '/users/password',
     login: '/auth/login',
     register: '/auth/register',
-    refreshToken: '/auth/token/refresh',
+    refreshToken: 'auth/refresh-token',
+  },
+  category: {
+    root: '/categories',
+  },
+  product: {
+    root: '/products',
   },
   student: {
     root: '/students',

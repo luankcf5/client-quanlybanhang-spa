@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMemo, useEffect, useCallback } from 'react';
 
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -13,10 +12,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 
 import { useTableContext } from 'src/table/context';
-import { createStore, updateStore } from 'src/api/store';
+import { createCategory, updateCategory } from 'src/api/category';
 
 import { useSnackbar } from 'src/components/snackbar';
-import FormProvider, { BlockItem, RHFSwitch, RHFTextField } from 'src/components/hook-form';
+import FormProvider, { BlockItem, RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -29,14 +28,14 @@ export default function Form() {
   const { enqueueSnackbar } = useSnackbar();
 
   const Schema = Yup.object().shape({
-    name: Yup.string().required('Bạn chưa nhập tên cho cửa hàng !'),
-    isActive: Yup.boolean().required('Bạn chưa xác định tình trạng cửa hàng'),
+    name: Yup.string().required('Bạn chưa nhập tên cho danh mục !'),
+    description: Yup.string().required('Bạn chưa nhập mô tả cho danh mục'),
   });
 
   const defaultValues = useMemo(
     () => ({
       name: table_selected_row?.name || '',
-      isActive: table_selected_row?.isActive || true,
+      description: table_selected_row?.description || '',
     }),
     [table_selected_row]
   );
@@ -61,23 +60,20 @@ export default function Form() {
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       if (!isEdit) {
-        const store = await createStore(data);
-        onCreateNewRow(store);
-        enqueueSnackbar('Đã thêm dữ liệu cửa hàng mới !');
+        const category = await createCategory({ ...data, tags: [] });
+        onCreateNewRow(category);
+        enqueueSnackbar('Đã thêm dữ liệu danh mục mới !');
       } else {
-        const store = await updateStore(table_selected_row.id, {
-          name: data.name,
-          isActive: data.isActive,
-        });
-        onUpdateRow(store);
-        enqueueSnackbar('Đã cập nhật dữ liệu cửa hàng !');
+        const category = await updateCategory(table_selected_row.id, { ...data, tags: [] });
+        onUpdateRow(category);
+        enqueueSnackbar('Đã cập nhật dữ liệu danh mục !');
       }
       reset();
       handleClose();
     } catch (error) {
       console.log(error);
       enqueueSnackbar(
-        error.message || error.message[0] || 'Đã có lỗi xảy ra !  Vui lòng thử lại !',
+        error.message[0] || error.message || 'Đã có lỗi xảy ra !  Vui lòng thử lại !',
         {
           variant: 'error',
         }
@@ -95,21 +91,23 @@ export default function Form() {
     <Dialog fullWidth maxWidth="sm" open={table_open_form} onClose={handleClose}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <DialogTitle>
-          {isEdit ? 'Cập nhật dữ liệu cửa hàng' : 'Thêm dữ liệu cửa hàng mới'}
+          {isEdit ? 'Cập nhật dữ liệu danh mục' : 'Thêm dữ liệu danh mục mới'}
         </DialogTitle>
 
         <DialogContent>
           <Stack spacing={2}>
-            <Alert variant="outlined" severity="info" sx={{ mt: 2 }}>
-              Ghi chú : Trạng thái cửa hàng mặc định là cho phép hoạt động...
-            </Alert>
-
-            <BlockItem label="Tên cửa hàng :" required>
-              <RHFTextField name="name" label="Cửa hàng rau Kiên Liên..." />
+            <BlockItem label="Tên danh mục :" required>
+              <RHFTextField name="name" label="Nhập tên danh mục" placeholder="Đồ gia dụng..." />
             </BlockItem>
 
-            <BlockItem label="Trạng thái hoạt động :" required>
-              <RHFSwitch name="isActive" label="Cho phép hoạt động" />
+            <BlockItem label="Mô tả danh mục :" required>
+              <RHFTextField
+                multiline
+                rows={4}
+                name="description"
+                label="Nhập mô tả danh mục..."
+                placeholder="Đây là danh mục cho các mặt hàng đồ gia dụng..."
+              />
             </BlockItem>
           </Stack>
         </DialogContent>

@@ -6,8 +6,6 @@ import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
 import { fCurrency } from 'src/utils/format-number';
 
 import Iconify from 'src/components/iconify';
@@ -20,7 +18,6 @@ import NoteInvoice from './note-invoice';
 import { useSaleContext } from '../../context';
 import VoucherInvoice from './voucher-invoice';
 import DeliveryInvoice from './delivery-invoice';
-import ProductAttributes from './product-attributes';
 import IconButtonAnimate from './icon-button-animate';
 import IncrementerButton from '../../common/incrementer-button';
 
@@ -28,8 +25,6 @@ import IncrementerButton from '../../common/incrementer-button';
 
 export default function Invoice() {
   const { products, onChangeQuantity, onRemoveProduct } = useSaleContext();
-
-  const openAttributes = useBoolean();
 
   return (
     <Stack justifyContent="space-between">
@@ -72,10 +67,6 @@ export default function Invoice() {
                   />
 
                   <Stack direction="row">
-                    <IconButtonAnimate onClick={openAttributes.onToggle}>
-                      <Iconify icon={openAttributes.value ? 'bxs:up-arrow' : 'bxs:down-arrow'} />
-                    </IconButtonAnimate>
-
                     <NoteProduct productId={product.id} note={product.note} />
 
                     <IconButtonAnimate color="error" onClick={() => onRemoveProduct(product.id)}>
@@ -90,7 +81,6 @@ export default function Invoice() {
                   <strong>Ghi chú: </strong> {product.note}
                 </Typography>
               )}
-              {openAttributes.value && <ProductAttributes attributes={product.attributes} />}
             </Card>
           ))}
         </Stack>

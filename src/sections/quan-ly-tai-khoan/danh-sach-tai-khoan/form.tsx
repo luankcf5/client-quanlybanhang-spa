@@ -2,15 +2,13 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { generate } from 'generate-password';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useCallback } from 'react';
 
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -18,32 +16,17 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { useBoolean } from 'src/hooks/use-boolean';
-
-import { createClass } from 'src/api/class';
 import { useTableContext } from 'src/table/context';
-import { createStudent, updateStudent } from 'src/api/student';
+import { createStore, updateStore } from 'src/api/store';
 
 import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
-import FormProvider, {
-  BlockItem,
-  RHFSelect,
-  RHFSwitch,
-  RHFTextField,
-} from 'src/components/hook-form';
-
-import { IClass } from 'src/types/class';
+import { usePopover } from 'src/components/custom-popover';
+import FormProvider, { BlockItem, RHFSwitch, RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  classData: IClass[];
-  setClassData: (classes: IClass[]) => void;
-};
-
-export default function Form({ classData, setClassData }: Props) {
+export default function Form() {
   const { table_selected_row, table_open_form, setValue, onForm, onCreateNewRow, onUpdateRow } =
     useTableContext();
 
@@ -103,51 +86,17 @@ export default function Form({ classData, setClassData }: Props) {
   // ----------------------------------------------------------------------
 
   const classPopover = usePopover();
-  const classLoading = useBoolean();
-
-  const [className, setClassName] = useState('');
-
-  const onCreateClass = useCallback(async () => {
-    classLoading.onTrue();
-    try {
-      const classroom = await createClass({
-        name: className,
-      });
-      const currentClassData = [...classData];
-      const newClassData = [classroom, ...currentClassData];
-      setClassData(newClassData);
-      setFormValue('class', classroom.id);
-      classPopover.onClose();
-      classLoading.onFalse();
-      setClassName('');
-      enqueueSnackbar('Đã thêm dữ liệu lớp học mới !');
-    } catch (error) {
-      console.log(error);
-      classLoading.onFalse();
-      classPopover.onClose();
-      enqueueSnackbar(
-        error.message || error.message[0] || 'Đã có lỗi xảy ra !  Vui lòng thử lại !',
-        {
-          variant: 'error',
-        }
-      );
-    }
-  }, [classData, setClassData, className, setClassName, setFormValue, enqueueSnackbar]);
 
   // ----------------------------------------------------------------------
 
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       if (!isEdit) {
-        const student = await createStudent({ ...data, classId: +data.class });
+        const student = await createStore({ ...data });
         onCreateNewRow(student);
         enqueueSnackbar('Đã thêm dữ liệu học sinh mới !');
       } else {
-        const student = await updateStudent(table_selected_row.id, {
-          name: data.name,
-          isActive: data.isActive,
-          classId: +data.class,
-        });
+        const student = await updateStore(table_selected_row.id, data);
         onUpdateRow(student);
         enqueueSnackbar('Đã cập nhật dữ liệu học sinh !');
       }
@@ -218,55 +167,6 @@ export default function Form({ classData, setClassData }: Props) {
 
             <BlockItem label="Họ và tên học sinh :" required>
               <RHFTextField name="name" placeholder="Lê Thanh Tùng..." />
-            </BlockItem>
-
-            <BlockItem
-              label="Lớp học của học sinh :"
-              required
-              button={
-                <>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    onClick={classPopover.onOpen}
-                  >
-                    Thêm lớp mới
-                  </Button>
-
-                  <CustomPopover
-                    hiddenArrow
-                    open={classPopover.open}
-                    onClose={classPopover.onClose}
-                  >
-                    <Stack spacing={2} sx={{ p: 1, width: 260 }}>
-                      <BlockItem label="Tên lớp học :" required>
-                        <TextField
-                          size="small"
-                          fullWidth
-                          placeholder="Nhập tên lớp học..."
-                          onChange={(event) => setClassName(event.target.value)}
-                        />
-                      </BlockItem>
-
-                      <LoadingButton
-                        variant="contained"
-                        color="primary"
-                        onClick={onCreateClass}
-                        loading={classLoading.value}
-                      >
-                        Thêm lớp học
-                      </LoadingButton>
-                    </Stack>
-                  </CustomPopover>
-                </>
-              }
-            >
-              <RHFSelect name="class" label="Lựa chọn lớp học :">
-                {classData.map((classroom) => (
-                  <MenuItem value={classroom.id}>{classroom.name}</MenuItem>
-                ))}
-              </RHFSelect>
             </BlockItem>
 
             <BlockItem label="Họ và tên học sinh :" required>

@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 
 import TableData from 'src/table';
-import { useGetStores } from 'src/api/store';
 import { RoleBasedGuard } from 'src/auth/guard';
+import { useGetProducts } from 'src/api/product';
 import { useTableContext } from 'src/table/context';
 
 import Form from './form';
@@ -14,34 +14,34 @@ import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
 
-export default function DanhSachCuaHang() {
-  const { stores } = useGetStores();
+export default function DanhSachSanPham() {
+  const { products } = useGetProducts();
 
   const { setValues } = useTableContext();
 
   useEffect(() => {
     setValues({
-      table_data: mapper(stores),
+      table_data: mapper(products),
       table_column: baseColumns,
       table_selected: [],
-      table_export_data: stores.map((store) => ({
-        id: store.id,
-        'Tên cửa hàng': store.name,
+      table_export_data: products.map((product) => ({
+        id: product.id,
+        'Tên sản phẩm': product.name,
       })),
       table_config: {
-        table_name: 'stores',
+        table_name: 'products',
         add_data: true,
-        add_multi_data: true,
+        add_multi_data: false,
         export_data: true,
         selected_data: true,
         delete_multi: true,
-        change_status_multi: true,
-        active_row: true,
+        change_status_multi: false,
+        active_row: false,
         edit_row: true,
         delete_row: true,
       },
     });
-  }, [stores]);
+  }, [products]);
 
   return (
     <RoleBasedGuard hasContent roles={['teacher']}>
