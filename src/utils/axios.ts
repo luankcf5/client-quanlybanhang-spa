@@ -42,6 +42,9 @@ export const endpoints = {
   product: {
     root: '/products',
   },
+  voucher: {
+    root: '/vouchers',
+  },
   student: {
     root: '/students',
   },

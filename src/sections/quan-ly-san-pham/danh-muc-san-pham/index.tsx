@@ -9,7 +9,6 @@ import { useGetCategories } from 'src/api/category';
 
 import Form from './form';
 import { mapper } from './functions';
-import MultiForm from './multi-form';
 import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
@@ -47,7 +46,6 @@ export default function DanhMucSanPham() {
     <RoleBasedGuard hasContent roles={['teacher']}>
       <TableData />
       <Form />
-      <MultiForm />
     </RoleBasedGuard>
   );
 }

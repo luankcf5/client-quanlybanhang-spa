@@ -8,7 +8,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 
 import { fCurrency } from 'src/utils/format-number';
 
-import { _product } from 'src/_mock/_products';
+import { useGetProducts } from 'src/api/product';
 
 import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
@@ -20,6 +20,8 @@ import { useSaleContext } from '../../context';
 export default function ProductList() {
   const { onAddProduct } = useSaleContext();
 
+  const { products } = useGetProducts();
+
   return (
     <Scrollbar sx={{ maxHeight: 'calc(100vh - 280px)' }}>
       <Box
@@ -27,7 +29,7 @@ export default function ProductList() {
         gridTemplateColumns={{ xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)' }}
         gap={1}
       >
-        {_product.map((product) => (
+        {products.map((product) => (
           <CardActionArea key={product.id} onClick={() => onAddProduct(product)}>
             <Card sx={{ padding: 0.75 }}>
               <Stack direction="row" alignItems="center" spacing={1}>
@@ -37,9 +39,22 @@ export default function ProductList() {
                     {product.name}
                   </TextMaxLine>
 
-                  <TextMaxLine variant="caption" line={1} color="primary">
-                    {fCurrency(product.price)}
-                  </TextMaxLine>
+                  <Stack direction="row" spacing={0.5}>
+                    <TextMaxLine
+                      line={1}
+                      color="primary"
+                      variant="caption"
+                      sx={{ textDecoration: product.discount > 0 ? 'line-through' : 'unset' }}
+                    >
+                      {fCurrency(product.price)}
+                    </TextMaxLine>
+
+                    {product.discount > 0 && (
+                      <TextMaxLine line={1} color="error" variant="caption">
+                        {fCurrency(product.price - product.discount)}
+                      </TextMaxLine>
+                    )}
+                  </Stack>
                 </Stack>
               </Stack>
             </Card>

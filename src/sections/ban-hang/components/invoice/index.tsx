@@ -48,10 +48,14 @@ export default function Invoice() {
                       {product.name}
                     </TextMaxLine>
 
-                    <TextMaxLine variant="caption" line={1} color="primary">
-                      {`${fCurrency(product.price)} x${product.quantity} = ${fCurrency(
-                        product.price * product.quantity
-                      )}`}
+                    <TextMaxLine
+                      variant="caption"
+                      line={1}
+                      color={product.discount > 0 ? 'error' : 'primary'}
+                    >
+                      {`${fCurrency(product.price - product.discount)} x${
+                        product.quantity
+                      } = ${fCurrency((product.price - product.discount) * product.quantity)}`}
                     </TextMaxLine>
                   </Stack>
                 </Stack>
@@ -88,7 +92,10 @@ export default function Invoice() {
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: 1 }}>
         <Typography variant="subtitle2" fontWeight="bold">
-          Tổng tiền: {fCurrency(sumBy(products, (prod: any) => prod.quantity * prod.price)) || '0đ'}
+          Tổng tiền:{' '}
+          {fCurrency(
+            sumBy(products, (prod: any) => prod.quantity * (prod.price - prod.discount))
+          ) || '0đ'}
         </Typography>
 
         <Stack direction="row" spacing={0.5}>

@@ -51,6 +51,14 @@ export const paths = {
       category: `${ROOTS.DASHBOARD}/quan-ly-san-pham/danh-muc-san-pham`,
       list: `${ROOTS.DASHBOARD}/quan-ly-san-pham/danh-sach-san-pham`,
     },
+    voucher: {
+      root: `${ROOTS.DASHBOARD}/quan-ly-giam-gia`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-giam-gia/danh-sach-giam-gia`,
+    },
+    customer: {
+      root: `${ROOTS.DASHBOARD}/quan-ly-khach-hang`,
+      list: `${ROOTS.DASHBOARD}/quan-ly-khach-hang/danh-sach-khach-hang`,
+    },
     order: {
       root: `${ROOTS.DASHBOARD}/quan-ly-don-hang`,
       list: `${ROOTS.DASHBOARD}/quan-ly-don-hang/danh-sach-don-hang`,

@@ -21,6 +21,8 @@ const ICONS = {
   log: icon('ic_log'),
   sale: icon('ic_sale'),
   staff: icon('ic_staff'),
+  voucher: icon('ic_voucher'),
+  customer: icon('ic_customer'),
 };
 
 // ----------------------------------------------------------------------
@@ -136,6 +138,30 @@ export function useNavData() {
               {
                 title: 'Danh sách sản phẩm',
                 path: paths.dashboard.product.list,
+                roles: ['teacher'],
+              },
+            ],
+          },
+          {
+            title: 'Quản lý giảm giá',
+            path: paths.dashboard.voucher.root,
+            icon: ICONS.voucher,
+            children: [
+              {
+                title: 'Danh sách giảm giá',
+                path: paths.dashboard.voucher.list,
+                roles: ['teacher'],
+              },
+            ],
+          },
+          {
+            title: 'Quản lý khách hàng',
+            path: paths.dashboard.customer.root,
+            icon: ICONS.customer,
+            children: [
+              {
+                title: 'Danh sách khách hàng',
+                path: paths.dashboard.customer.list,
                 roles: ['teacher'],
               },
             ],

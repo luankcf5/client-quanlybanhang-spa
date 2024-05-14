@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import TableData from 'src/table';
 import { RoleBasedGuard } from 'src/auth/guard';
-import { useGetProducts } from 'src/api/product';
+import { useGetVouchers } from 'src/api/voucher';
 import { useTableContext } from 'src/table/context';
 
 import Form from './form';
@@ -13,22 +13,22 @@ import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
 
-export default function DanhSachSanPham() {
-  const { products } = useGetProducts();
+export default function DanhSachGiamGia() {
+  const { vouchers } = useGetVouchers();
 
   const { setValues } = useTableContext();
 
   useEffect(() => {
     setValues({
-      table_data: mapper(products),
+      table_data: mapper(vouchers),
       table_column: baseColumns,
       table_selected: [],
-      table_export_data: products.map((product) => ({
-        id: product.id,
-        'Tên sản phẩm': product.name,
+      table_export_data: vouchers.map((voucher) => ({
+        id: voucher.id,
+        'Tên mã giảm giá': voucher.name,
       })),
       table_config: {
-        table_name: 'products',
+        table_name: 'vouchers',
         add_data: true,
         add_multi_data: false,
         export_data: true,
@@ -40,7 +40,7 @@ export default function DanhSachSanPham() {
         delete_row: true,
       },
     });
-  }, [products]);
+  }, [vouchers]);
 
   return (
     <RoleBasedGuard hasContent roles={['teacher']}>

@@ -13,7 +13,7 @@ import ProductHeader from './product-header';
 export default function ProductContainer() {
   return (
     <Card sx={{ height: '100%', width: '100%' }}>
-      <Stack>
+      <Stack sx={{ height: '100%' }}>
         <ProductHeader />
         <ProductList />
         <Divider sx={{ borderStyle: 'dashed' }} />
