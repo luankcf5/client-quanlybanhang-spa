@@ -38,15 +38,3 @@ export default function InvoiceChange() {
     </>
   );
 }
-
-// ----------------------------------------------------------------------
-
-function applyFilter({ inputData, filterName }: { inputData: any; filterName: string }) {
-  if (filterName) {
-    inputData = inputData.filter(
-      (data: any) => data?.name?.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-    );
-  }
-
-  return inputData;
-}

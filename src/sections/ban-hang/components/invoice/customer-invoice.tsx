@@ -1,12 +1,20 @@
 import React, { useState, useCallback } from 'react';
 
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Autocomplete from '@mui/material/Autocomplete';
+
+import { _customers } from 'src/_mock/_customers';
 
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
+
+import { ICustomer } from 'src/types/customer';
 
 import IconButtonAnimate from './icon-button-animate';
 
@@ -15,39 +23,76 @@ import IconButtonAnimate from './icon-button-animate';
 export default function CustomerInvoice() {
   const popover = usePopover();
 
-  const [noteValue, setNoteValue] = useState('');
+  const [customerSelected, setCustomerSelected] = useState<ICustomer | null>(null);
 
   const handleReset = useCallback(() => {
-    setNoteValue('');
+    setCustomerSelected(null);
     popover.onClose();
-  }, [setNoteValue, popover]);
+  }, [setCustomerSelected, popover]);
 
   const handleAddNote = useCallback(() => {
     popover.onClose();
-  }, [setNoteValue, popover]);
+  }, [setCustomerSelected, popover]);
+
+  const handleAddNewSalesProduct = useCallback(
+    (value: any) => {
+      if (value) {
+        setCustomerSelected(value);
+      }
+    },
+    [setCustomerSelected]
+  );
 
   return (
     <>
       <IconButtonAnimate onClick={popover.onOpen}>
-        <Badge variant="dot" color="error" invisible={!noteValue}>
+        <Badge variant="dot" color="error" invisible={!customerSelected}>
           <Iconify icon="raphael:customer" />
         </Badge>
       </IconButtonAnimate>
 
       <CustomPopover open={popover.open} onClose={popover.onClose} arrow="bottom-right">
         <Stack spacing={1} sx={{ padding: 1, width: 420 }}>
-          <TextField
-            multiline
-            rows={6}
+          <Autocomplete
             size="small"
-            placeholder="Ghi chú về đơn hàng..."
-            value={noteValue}
-            onChange={(event) => setNoteValue(event.target.value)}
+            options={_customers}
+            getOptionLabel={(option) => option.name}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                size="small"
+                placeholder="Tìm kiếm khách hàng..."
+                margin="none"
+              />
+            )}
+            onChange={(event, value) => handleAddNewSalesProduct(value)}
+            renderOption={renderOption}
           />
 
+          <Typography variant="body2">
+            <strong>Thông tin khách hàng cho hoá đơn</strong>
+          </Typography>
+
+          <Typography variant="body2">
+            <strong>Họ và tên :</strong> {customerSelected?.name || 'Chưa có'}
+          </Typography>
+
+          <Typography variant="body2">
+            <strong>Số điện thoại :</strong> {customerSelected?.phone || 'Chưa có'}
+          </Typography>
+
+          <Typography variant="body2">
+            <strong>Địa chỉ :</strong> {customerSelected?.address || 'Chưa có'}
+          </Typography>
+
+          <Typography variant="body2">
+            <strong>Điểm tích luỹ :</strong> {`${customerSelected?.point} điểm` || 'Chưa có'}
+          </Typography>
+
           <Stack direction="row" justifyContent="end" spacing={1}>
-            <Button size="small" color="error" onClick={handleReset} disabled={!noteValue}>
-              Xoá ghi chú
+            <Button size="small" color="error" onClick={handleReset} disabled={!customerSelected}>
+              Huỷ
             </Button>
 
             <Button
@@ -55,7 +100,7 @@ export default function CustomerInvoice() {
               variant="contained"
               color="primary"
               onClick={handleAddNote}
-              disabled={!noteValue}
+              disabled={!customerSelected}
             >
               Xác nhận
             </Button>
@@ -65,3 +110,19 @@ export default function CustomerInvoice() {
     </>
   );
 }
+
+// ----------------------------------------------------------------------
+
+const renderOption = (props: any, option: any, { selected }: any) => (
+  <Box component="li" {...props}>
+    <Avatar variant="square" src={option.name} sx={{ borderRadius: 0.5, mr: 1.5 }} />
+
+    <Stack>
+      <Typography variant="subtitle2" color="textPrimary">
+        {option.name}
+      </Typography>
+
+      <Typography variant="caption">{option.phone}</Typography>
+    </Stack>
+  </Box>
+);

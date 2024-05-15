@@ -39,7 +39,7 @@ export default function TableRoom() {
                   />
                   <Button
                     fullWidth
-                    color={table.isPayment ? 'info' : 'primary'}
+                    color={table.isPayment ? 'warning' : 'primary'}
                     variant="contained"
                     sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
                   >
