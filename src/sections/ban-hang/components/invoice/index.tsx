@@ -18,6 +18,7 @@ import NoteInvoice from './note-invoice';
 import { useSaleContext } from '../../context';
 import VoucherInvoice from './voucher-invoice';
 import DeliveryInvoice from './delivery-invoice';
+import CustomerInvoice from './customer-invoice';
 import IconButtonAnimate from './icon-button-animate';
 import IncrementerButton from '../../common/incrementer-button';
 
@@ -105,9 +106,7 @@ export default function Invoice() {
 
           <NoteInvoice />
 
-          <IconButtonAnimate>
-            <Iconify icon="raphael:customer" />
-          </IconButtonAnimate>
+          <CustomerInvoice />
         </Stack>
       </Stack>
     </Stack>

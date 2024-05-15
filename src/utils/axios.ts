@@ -45,6 +45,9 @@ export const endpoints = {
   voucher: {
     root: '/vouchers',
   },
+  customer: {
+    root: '/customers',
+  },
   student: {
     root: '/students',
   },

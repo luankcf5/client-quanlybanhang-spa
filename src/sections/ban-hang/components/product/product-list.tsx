@@ -8,19 +8,21 @@ import CardActionArea from '@mui/material/CardActionArea';
 
 import { fCurrency } from 'src/utils/format-number';
 
-import { useGetProducts } from 'src/api/product';
-
 import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
+
+import { IProduct } from 'src/types/product';
 
 import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-export default function ProductList() {
-  const { onAddProduct } = useSaleContext();
+type Props = {
+  products: IProduct[];
+};
 
-  const { products } = useGetProducts();
+export default function ProductList({ products }: Props) {
+  const { onAddProduct } = useSaleContext();
 
   return (
     <Scrollbar sx={{ maxHeight: 'calc(100vh - 280px)' }}>

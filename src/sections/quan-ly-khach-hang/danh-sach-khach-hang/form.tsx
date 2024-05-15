@@ -1,22 +1,18 @@
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useEffect, useCallback } from 'react';
 
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
 import LoadingButton from '@mui/lab/LoadingButton';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import InputAdornment from '@mui/material/InputAdornment';
 
 import { useTableContext } from 'src/table/context';
-import { createVoucher, updateVoucher } from 'src/api/voucher';
+import { createCustomer, updateCustomer } from 'src/api/customer';
 
 import { useSnackbar } from 'src/components/snackbar';
 import FormProvider, { BlockItem, RHFTextField } from 'src/components/hook-form';
@@ -32,16 +28,16 @@ export default function Form() {
   const { enqueueSnackbar } = useSnackbar();
 
   const Schema = Yup.object().shape({
-    name: Yup.string().required('Bạn chưa nhập tên cho mã giảm giá !'),
-    percent: Yup.string(),
-    price: Yup.string(),
+    name: Yup.string().required('Bạn chưa nhập tên cho khách hàng !'),
+    phone: Yup.string().required('Bạn chưa nhập số điện thoại cho khách hàng !'),
+    address: Yup.string(),
   });
 
   const defaultValues = useMemo(
     () => ({
       name: table_selected_row?.name || '',
-      percent: table_selected_row?.percent || '',
-      price: table_selected_row?.price || '',
+      phone: table_selected_row?.phone || '',
+      address: table_selected_row?.address || '',
     }),
     [table_selected_row]
   );
@@ -54,7 +50,6 @@ export default function Form() {
 
   const {
     reset,
-    setValue: setFormValue,
     handleSubmit,
     formState: { isSubmitting },
   } = methods;
@@ -68,13 +63,13 @@ export default function Form() {
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       if (!isEdit) {
-        const category = await createVoucher({ ...data });
+        const category = await createCustomer(data);
         onCreateNewRow(category);
-        enqueueSnackbar('Đã thêm dữ liệu mã giảm giá mới !');
+        enqueueSnackbar('Đã thêm dữ liệu khách hàng mới !');
       } else {
-        const category = await updateVoucher(table_selected_row.id, { ...data });
+        const category = await updateCustomer(table_selected_row.id, data);
         onUpdateRow(category);
-        enqueueSnackbar('Đã cập nhật dữ liệu mã giảm giá !');
+        enqueueSnackbar('Đã cập nhật dữ liệu khách hàng !');
       }
       reset();
       handleClose();
@@ -95,76 +90,40 @@ export default function Form() {
     reset();
   }, [onForm, setValue, reset]);
 
-  const [currentTab, setCurrentTab] = useState('price');
-
-  const handleChangeTab = useCallback(
-    (event: React.SyntheticEvent, newValue: string) => {
-      setFormValue('price', '');
-      setFormValue('percent', '');
-      setCurrentTab(newValue);
-    },
-    [setFormValue]
-  );
-
   return (
     <Dialog fullWidth maxWidth="sm" open={table_open_form} onClose={handleClose}>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <DialogTitle>
-          {isEdit ? 'Cập nhật dữ liệu mã giảm giá' : 'Thêm dữ liệu mã giảm giá mới'}
+          {isEdit ? 'Cập nhật dữ liệu khách hàng' : 'Thêm dữ liệu khách hàng mới'}
         </DialogTitle>
 
         <DialogContent>
           <Stack spacing={2}>
-            <BlockItem label="Tên mã giảm giá :" required>
-              <RHFTextField name="name" label="Nhập tên mã giảm giá" placeholder="VOUCHER01..." />
+            <BlockItem label="Tên khách hàng :" required>
+              <RHFTextField
+                name="name"
+                label="Nhập tên khách hàng"
+                placeholder="Lê Thanh Tùng..."
+              />
             </BlockItem>
 
-            <Tabs value={currentTab} onChange={handleChangeTab}>
-              <Tab label="Giảm giá trực tiếp" value="price" />
-              <Tab label="Giảm giá theo phần trăm" value="percent" />
-            </Tabs>
+            <BlockItem label="Số điện thoại khách hàng :" required>
+              <RHFTextField
+                name="phone"
+                label="Nhập số điện thoại khách hàng"
+                placeholder="0945 855 878..."
+              />
+            </BlockItem>
 
-            {currentTab === 'price' && (
-              <BlockItem label="Nhập giá giảm :" required>
-                <RHFTextField
-                  name="price"
-                  type="number"
-                  label="Nhập giá giảm"
-                  placeholder="100000..."
-                  onChange={(event) =>
-                    setFormValue('price', event.target.value, { shouldValidate: true })
-                  }
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="start">
-                        <Typography variant="subtitle2">VNĐ</Typography>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </BlockItem>
-            )}
-
-            {currentTab === 'percent' && (
-              <BlockItem label="Nhập phần trăm giảm :" required>
-                <RHFTextField
-                  name="percent"
-                  type="number"
-                  label="Nhập phần trăm giảm"
-                  placeholder="100000..."
-                  onChange={(event) =>
-                    setFormValue('percent', event.target.value, { shouldValidate: true })
-                  }
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="start">
-                        <Typography variant="subtitle2">%</Typography>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </BlockItem>
-            )}
+            <BlockItem label="Địa chỉ khách hàng :">
+              <RHFTextField
+                multiline
+                rows={2}
+                name="address"
+                label="Nhập địa chỉ khách hàng..."
+                placeholder="138 Mậu Thân, Ninh Kiều, Cần Thơ..."
+              />
+            </BlockItem>
           </Stack>
         </DialogContent>
 

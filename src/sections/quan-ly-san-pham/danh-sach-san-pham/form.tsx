@@ -102,15 +102,15 @@ export default function Form() {
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       if (!isEdit) {
-        const category = await createProduct({ ...data, categoryId: Number(data.category) });
-        onCreateNewRow(category);
+        const product = await createProduct({ ...data, categoryId: Number(data.category) });
+        onCreateNewRow(product);
         enqueueSnackbar('Đã thêm dữ liệu sản phẩm mới !');
       } else {
-        const category = await updateProduct(table_selected_row.id, {
+        const product = await updateProduct(table_selected_row.id, {
           ...data,
           categoryId: Number(data.category),
         });
-        onUpdateRow(category);
+        onUpdateRow(product);
         enqueueSnackbar('Đã cập nhật dữ liệu sản phẩm !');
       }
       reset();

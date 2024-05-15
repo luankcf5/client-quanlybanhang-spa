@@ -1,6 +1,5 @@
 import { GridColDef } from '@mui/x-data-grid';
 
-import { fCurrency } from 'src/utils/format-number';
 import { fDate, fDateTime } from 'src/utils/format-time';
 
 // ----------------------------------------------------------------------
@@ -13,18 +12,32 @@ export const baseColumns: GridColDef[] = [
   },
   {
     field: 'name',
-    headerName: 'Tên mã giảm giá',
+    headerName: 'Tên khách hàng',
     flex: 1,
     minWidth: 270,
     hideable: false,
     renderCell: (params) => params.row.name,
   },
   {
-    field: 'price',
-    headerName: 'Giá trị giảm giá',
+    field: 'phone',
+    headerName: 'Số điện thoại',
     flex: 1,
     minWidth: 270,
-    renderCell: (params) => fCurrency(params.row.price) || `${params.row.percent}%`,
+    renderCell: (params) => params.row.phone,
+  },
+  {
+    field: 'address',
+    headerName: 'Địa chỉ',
+    flex: 1,
+    minWidth: 270,
+    renderCell: (params) => params.row.address,
+  },
+  {
+    field: 'point',
+    headerName: 'Điểm tích luỹ',
+    flex: 1,
+    minWidth: 270,
+    renderCell: (params) => `${params.row.point} điểm`,
   },
   {
     type: 'date',

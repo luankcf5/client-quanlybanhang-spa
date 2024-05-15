@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -10,45 +10,58 @@ import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
 import CardActionArea from '@mui/material/CardActionArea';
 
-import { _category } from 'src/_mock/_category';
-
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
+import { ICategory } from 'src/types/category';
+
 // ----------------------------------------------------------------------
 
-export default function ProductHeader() {
+type Props = {
+  filterName: string;
+  setFilterName: (name: string) => void;
+  filterCategory: string[];
+  setFilterCategory: (category: string[]) => void;
+  categories: ICategory[];
+};
+
+export default function ProductHeader({
+  categories,
+  filterName,
+  setFilterName,
+  filterCategory,
+  setFilterCategory,
+}: Props) {
   const openCategory = usePopover();
 
-  const [filterValue, setFilterValue] = useState<string[]>([]);
-
-  const [searchValue, setSearchValue] = useState('');
-
-  const onSearch = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  }, []);
+  const onSearch = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setFilterName(event.target.value);
+    },
+    [setFilterName]
+  );
 
   const onFilter = useCallback(
     (category: string) => {
-      const checked = filterValue.includes(category)
-        ? filterValue.filter((value) => value !== category)
-        : [...filterValue, category];
+      const checked = filterCategory.includes(category)
+        ? filterCategory.filter((value) => value !== category)
+        : [...filterCategory, category];
 
-      setFilterValue(checked);
+      setFilterCategory(checked);
     },
-    [filterValue, setFilterValue]
+    [filterCategory, setFilterCategory]
   );
 
   const onReset = useCallback(() => {
-    setFilterValue([]);
-  }, [setFilterValue]);
+    setFilterCategory([]);
+  }, [filterCategory, setFilterCategory]);
 
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center" p={1}>
       <TextField
         size="small"
-        value={searchValue}
+        value={filterName}
         onChange={onSearch}
         placeholder="Tìm kiếm sản phẩm..."
         InputProps={{
@@ -60,7 +73,7 @@ export default function ProductHeader() {
         }}
       />
 
-      <Badge color="error" variant="dot" invisible={!filterValue.length}>
+      <Badge color="error" variant="dot" invisible={!filterCategory.length}>
         <Button
           variant="contained"
           color="primary"
@@ -86,8 +99,8 @@ export default function ProductHeader() {
               gridTemplateColumns={{ xs: 'repeat(2, 1fr)', sm: 'repeat(1, 1fr)' }}
               gap={1}
             >
-              {_category.map((category) => {
-                const selected = filterValue.includes(category.name);
+              {categories.map((category) => {
+                const selected = filterCategory.includes(category.name);
 
                 return (
                   <CardActionArea
