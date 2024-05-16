@@ -37,9 +37,12 @@ export default function CustomerInvoice() {
   }, [setCustomerSelected, popover]);
 
   const handleAddNewSalesProduct = useCallback(
-    (value: any) => {
+    (value: any, reason: any) => {
       if (value) {
         setCustomerSelected(value);
+      }
+      if (reason === 'clear') {
+        setCustomerSelected('null');
       }
     },
     [setCustomerSelected]
@@ -68,7 +71,7 @@ export default function CustomerInvoice() {
                 margin="none"
               />
             )}
-            onChange={(event, value) => handleAddNewSalesProduct(value)}
+            onChange={(event, value, reason) => handleAddNewSalesProduct(value, reason)}
             renderOption={renderOption}
           />
 
