@@ -42,7 +42,7 @@ export default function CustomerInvoice() {
         setCustomerSelected(value);
       }
       if (reason === 'clear') {
-        setCustomerSelected('null');
+        setCustomerSelected(null);
       }
     },
     [setCustomerSelected]
