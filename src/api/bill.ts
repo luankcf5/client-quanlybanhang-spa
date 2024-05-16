@@ -1,0 +1,55 @@
+import useSWR from 'swr';
+import { useMemo } from 'react';
+
+import axios, { fetcher, endpoints } from 'src/utils/axios';
+
+import { IBill } from 'src/types/bill';
+
+// ----------------------------------------------------------------------
+
+const URL = endpoints.bill.root;
+
+const options = {
+  revalidateIfStale: true,
+  revalidateOnFocus: true,
+  revalidateOnReconnect: true,
+};
+
+export function useGetBills() {
+  const { data, isLoading, error, isValidating } = useSWR(URL, fetcher, options);
+
+  const memoizedValue = useMemo(
+    () => ({
+      bills: (data as IBill[]) || [],
+      billsLoading: isLoading,
+      billsError: error,
+      billsValidating: isValidating,
+      billsEmpty: !isLoading && !data?.length,
+    }),
+    [data?.bills, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
+export async function createBill(billData: any) {
+  const { data } = await axios.post(URL, billData);
+  return data;
+}
+
+// ----------------------------------------------------------------------
+
+export async function createBills(billsData: any[]) {
+  const { data } = await axios.post(`${URL}/batch`, billsData);
+
+  return data;
+}
+
+// ----------------------------------------------------------------------
+
+export async function updateBill(id: number, billData: any) {
+  const { data } = await axios.patch(`${URL}/${id}`, billData);
+  return data;
+}

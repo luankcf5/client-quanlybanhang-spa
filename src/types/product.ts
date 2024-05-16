@@ -8,8 +8,9 @@ export type IProduct = {
   description: string;
   price: number;
   discount: number;
-  amount: number;
   image: string;
+  amount: number;
+  note: string;
   createdAt: Date;
   updateAt: Date;
 };

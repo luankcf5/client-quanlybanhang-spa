@@ -39,42 +39,51 @@ export default function Invoice() {
           sx={{ padding: 1, height: '100%' }}
         >
           {products.map((product: any) => (
-            <Card key={product.id} sx={{ padding: 0.75 }}>
+            <Card key={product.product.id} sx={{ padding: 0.75 }}>
               <Stack direction="row" alignItems="center" justifyContent="space-between">
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Avatar variant="square" src={product.image} sx={{ borderRadius: 0.5 }} />
+                  <Avatar
+                    variant="square"
+                    src={product.product?.image}
+                    sx={{ borderRadius: 0.5 }}
+                  />
 
                   <Stack>
                     <TextMaxLine variant="body2" line={1}>
-                      {product.name}
+                      {product.product.name}
                     </TextMaxLine>
 
                     <TextMaxLine
                       variant="caption"
                       line={1}
-                      color={product.discount > 0 ? 'error' : 'primary'}
+                      color={product.product.discount > 0 ? 'error' : 'primary'}
                     >
-                      {`${fCurrency(product.price - product.discount)} x${
-                        product.quantity
-                      } = ${fCurrency((product.price - product.discount) * product.quantity)}`}
+                      {`${fCurrency(product.product.price - product.product.discount)} x${
+                        product.amount
+                      } = ${fCurrency(
+                        (product.product.price - product.product.discount) * product.amount
+                      )}`}
                     </TextMaxLine>
                   </Stack>
                 </Stack>
 
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <IncrementerButton
-                    name="quantity"
-                    quantity={product.quantity}
-                    disabledDecrease={product.quantity <= 1}
-                    disabledIncrease={product.quantity >= 99}
-                    onIncrease={() => onChangeQuantity(product.id, product.quantity + 1)}
-                    onDecrease={() => onChangeQuantity(product.id, product.quantity - 1)}
+                    name="amount"
+                    quantity={product.amount}
+                    disabledDecrease={product.amount <= 1}
+                    disabledIncrease={product.amount >= 99}
+                    onIncrease={() => onChangeQuantity(product.product.id, product.amount + 1)}
+                    onDecrease={() => onChangeQuantity(product.product.id, product.amount - 1)}
                   />
 
                   <Stack direction="row">
-                    <NoteProduct productId={product.id} note={product.note} />
+                    <NoteProduct productId={product.product.id} note={product.note} />
 
-                    <IconButtonAnimate color="error" onClick={() => onRemoveProduct(product.id)}>
+                    <IconButtonAnimate
+                      color="error"
+                      onClick={() => onRemoveProduct(product.product.id)}
+                    >
                       <Iconify icon="material-symbols:delete" />
                     </IconButtonAnimate>
                   </Stack>
@@ -95,7 +104,10 @@ export default function Invoice() {
         <Typography variant="subtitle2" fontWeight="bold">
           Tổng tiền:{' '}
           {fCurrency(
-            sumBy(products, (prod: any) => prod.quantity * (prod.price - prod.discount))
+            sumBy(
+              products,
+              (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
+            )
           ) || '0đ'}
         </Typography>
 

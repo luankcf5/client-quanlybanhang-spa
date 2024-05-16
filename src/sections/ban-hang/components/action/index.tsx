@@ -3,6 +3,8 @@ import React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 
+import PaymentAction from './payment-action';
+
 // ----------------------------------------------------------------------
 
 export default function Action() {
@@ -21,9 +23,7 @@ export default function Action() {
           Tạm tính
         </Button>
 
-        <Button variant="contained" size="small" color="primary">
-          Thanh toán
-        </Button>
+        <PaymentAction />
       </Stack>
     </Stack>
   );

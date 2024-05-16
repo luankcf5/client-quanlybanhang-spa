@@ -8,7 +8,6 @@ import { useTableContext } from 'src/table/context';
 import { useGetCategories } from 'src/api/category';
 
 import Form from './form';
-import { mapper } from './functions';
 import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
@@ -20,7 +19,7 @@ export default function DanhMucSanPham() {
 
   useEffect(() => {
     setValues({
-      table_data: mapper(categories),
+      table_data: categories,
       table_column: baseColumns,
       table_selected: [],
       table_export_data: categories.map((category) => ({

@@ -1,40 +1,53 @@
+import { useCallback } from 'react';
+
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemText from '@mui/material/ListItemText';
 
-import { _invoice } from 'src/_mock';
+import { createBill } from 'src/api/bill';
 
-import Scrollbar from 'src/components/scrollbar';
-import CustomPopover, { usePopover } from 'src/components/custom-popover';
+import { useSnackbar } from 'src/components/snackbar';
+
+import { IBill } from 'src/types/bill';
+
+import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-export default function InvoiceChange() {
-  const openListInvoice = usePopover();
-  return (
-    <>
-      <Stack>
-        <Button variant="contained" color="secondary" onClick={openListInvoice.onOpen}>
-          Hoá đơn mới
-        </Button>
-      </Stack>
+type Props = {
+  onAddNewBill: (bill: IBill) => void;
+};
 
-      <CustomPopover
-        hiddenArrow
-        open={openListInvoice.open}
-        onClose={openListInvoice.onClose}
-        arrow="top-left"
-        sx={{ width: 280 }}
-      >
-        <Scrollbar sx={{ height: 320 }}>
-          {_invoice.map((invoice) => (
-            <MenuItem key={invoice.id}>
-              <ListItemText primary={invoice.name} secondary={invoice.totalPrice} />
-            </MenuItem>
-          ))}
-        </Scrollbar>
-      </CustomPopover>
-    </>
+export default function InvoiceChange({ onAddNewBill }: Props) {
+  const { onGetBill } = useSaleContext();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleNewBill = useCallback(async () => {
+    try {
+      const bill = await createBill({
+        statusId: 1,
+        regularPrice: 0,
+        discountPrice: 0,
+        totalPrice: 0,
+      });
+      onAddNewBill(bill);
+      onGetBill(bill);
+      enqueueSnackbar('Đã thêm hoá đơn mới !');
+    } catch (error) {
+      console.log(error);
+      enqueueSnackbar(
+        error.message || error.message[0] || 'Đã có lỗi xảy ra ! Vui lòng thử lại !',
+        {
+          variant: 'error',
+        }
+      );
+    }
+  }, [onAddNewBill, onGetBill, enqueueSnackbar]);
+  return (
+    <Stack>
+      <Button variant="contained" color="secondary" onClick={handleNewBill}>
+        Hoá đơn mới
+      </Button>
+    </Stack>
   );
 }

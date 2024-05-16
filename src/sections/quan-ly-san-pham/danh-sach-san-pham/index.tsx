@@ -8,7 +8,6 @@ import { useGetProducts } from 'src/api/product';
 import { useTableContext } from 'src/table/context';
 
 import Form from './form';
-import { mapper } from './functions';
 import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
@@ -20,7 +19,7 @@ export default function DanhSachSanPham() {
 
   useEffect(() => {
     setValues({
-      table_data: mapper(products),
+      table_data: products,
       table_column: baseColumns,
       table_selected: [],
       table_export_data: products.map((product) => ({

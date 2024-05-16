@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 
 import TableData from 'src/table';
+import { useGetRooms } from 'src/api/room';
 import { RoleBasedGuard } from 'src/auth/guard';
-import { useGetCustomers } from 'src/api/customer';
 import { useTableContext } from 'src/table/context';
 
 import Form from './form';
@@ -12,22 +12,22 @@ import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
 
-export default function DanhSachKhachHang() {
-  const { customers } = useGetCustomers();
+export default function DanhSachPhongBan() {
+  const { rooms } = useGetRooms();
 
   const { setValues } = useTableContext();
 
   useEffect(() => {
     setValues({
-      table_data: customers,
+      table_data: rooms,
       table_column: baseColumns,
       table_selected: [],
-      table_export_data: customers.map((customer) => ({
-        id: customer.id,
-        'Tên khách hàng': customer.name,
+      table_export_data: rooms.map((room) => ({
+        id: room.id,
+        'Tên bàn': room.name,
       })),
       table_config: {
-        table_name: 'customers',
+        table_name: 'rooms',
         add_data: true,
         add_multi_data: false,
         export_data: true,
@@ -39,7 +39,7 @@ export default function DanhSachKhachHang() {
         delete_row: true,
       },
     });
-  }, [customers]);
+  }, [rooms]);
 
   return (
     <RoleBasedGuard hasContent roles={['teacher']}>

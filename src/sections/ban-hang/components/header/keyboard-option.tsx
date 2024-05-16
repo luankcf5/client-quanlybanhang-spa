@@ -18,10 +18,6 @@ const keyboards = [
     label: 'Thanh toán hoá đơn',
   },
   {
-    key: 'F6',
-    label: 'Phóng to / thu nhỏ',
-  },
-  {
     key: 'F7',
     label: 'Chế độ xem hoá đơn',
   },
@@ -51,7 +47,7 @@ export default function KeyboardOption() {
       </IconButton>
 
       <CustomPopover hiddenArrow open={popover.open} onClose={popover.onClose}>
-        <Stack spacing={1}>
+        <Stack>
           {keyboards.map((keyboard, index) => (
             <MenuItem key={index}>
               <Stack direction="row" justifyContent="space-between" width={250}>

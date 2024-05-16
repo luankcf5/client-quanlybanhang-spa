@@ -8,7 +8,6 @@ import { useGetVouchers } from 'src/api/voucher';
 import { useTableContext } from 'src/table/context';
 
 import Form from './form';
-import { mapper } from './functions';
 import { baseColumns } from './columns';
 
 // ----------------------------------------------------------------------
@@ -20,7 +19,7 @@ export default function DanhSachGiamGia() {
 
   useEffect(() => {
     setValues({
-      table_data: mapper(vouchers),
+      table_data: vouchers,
       table_column: baseColumns,
       table_selected: [],
       table_export_data: vouchers.map((voucher) => ({

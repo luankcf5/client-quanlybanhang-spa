@@ -95,10 +95,7 @@ export function AuthProvider({ children }: Props) {
           type: Types.INITIAL,
           payload: {
             user: {
-              ...{
-                username: 'luanprovip',
-                fullName: 'Luaan Pro Vip',
-              },
+              ...user,
               accessToken,
             },
           },
@@ -107,13 +104,7 @@ export function AuthProvider({ children }: Props) {
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: {
-              ...{
-                username: 'luanprovip',
-                fullName: 'Luaan Pro Vip',
-              },
-              accessToken,
-            },
+            user: null,
           },
         });
       }
@@ -139,20 +130,17 @@ export function AuthProvider({ children }: Props) {
       password,
     };
 
-    // const res = await axios.post(endpoints.auth.login, data);
+    const res = await axios.post(endpoints.auth.login, data);
 
-    // const { accessToken, refreshToken, user } = res.data;
+    const { accessToken, refreshToken, user } = res.data;
 
-    // setSession(accessToken, refreshToken);
+    setSession(accessToken, refreshToken);
 
     dispatch({
       type: Types.LOGIN,
       payload: {
         user: {
-          ...{
-            username: 'luanprovip',
-            fullName: 'Luaan Pro Vip',
-          },
+          ...user,
           accessToken: 'gffg',
           role: 'teacher',
         },

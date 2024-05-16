@@ -2,12 +2,17 @@
 
 import { useContext, createContext } from 'react';
 
+import { IBill } from 'src/types/bill';
+import { IProduct } from 'src/types/product';
+
 // ----------------------------------------------------------------------
 
 type SaleContextProps = {
-  products: any;
+  products: IProduct[];
+  selectedBill: IBill | null;
+  onGetBill: (bill: IBill | null) => void;
   onAddNote: (productId: number, note: string) => void;
-  onAddProduct: (product: any) => void;
+  onAddProduct: (product: IProduct[]) => void;
   onRemoveProduct: (productId: number) => void;
   onChangeQuantity: (id: number, quantity: number) => void;
 };

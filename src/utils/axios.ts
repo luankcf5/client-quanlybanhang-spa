@@ -48,6 +48,12 @@ export const endpoints = {
   customer: {
     root: '/customers',
   },
+  room: {
+    root: '/rooms',
+  },
+  bill: {
+    root: '/bills',
+  },
   student: {
     root: '/students',
   },

@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 
-import { _customers } from 'src/_mock/_customers';
+import { useGetCustomers } from 'src/api/customer';
 
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
@@ -22,6 +22,8 @@ import IconButtonAnimate from './icon-button-animate';
 
 export default function CustomerInvoice() {
   const popover = usePopover();
+
+  const { customers } = useGetCustomers();
 
   const [customerSelected, setCustomerSelected] = useState<ICustomer | null>(null);
 
@@ -55,7 +57,7 @@ export default function CustomerInvoice() {
         <Stack spacing={1} sx={{ padding: 1, width: 420 }}>
           <Autocomplete
             size="small"
-            options={_customers}
+            options={customers}
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => (
@@ -87,7 +89,7 @@ export default function CustomerInvoice() {
           </Typography>
 
           <Typography variant="body2">
-            <strong>Điểm tích luỹ :</strong> {`${customerSelected?.point} điểm` || 'Chưa có'}
+            <strong>Điểm tích luỹ :</strong> {`${customerSelected?.point || 0} điểm`}
           </Typography>
 
           <Stack direction="row" justifyContent="end" spacing={1}>
