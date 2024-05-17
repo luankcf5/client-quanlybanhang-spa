@@ -12,7 +12,6 @@ coverage
 .next
 .swc
 _static
-out
 dist
 build
 

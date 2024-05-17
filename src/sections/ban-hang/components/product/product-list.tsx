@@ -11,14 +11,12 @@ import { fCurrency } from 'src/utils/format-number';
 import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
 
-import { IProduct } from 'src/types/product';
-
 import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
 type Props = {
-  products: IProduct[];
+  products: any;
 };
 
 export default function ProductList({ products }: Props) {
@@ -31,7 +29,7 @@ export default function ProductList({ products }: Props) {
         gridTemplateColumns={{ xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)' }}
         gap={1}
       >
-        {products.map((product) => (
+        {products.map((product: any) => (
           <CardActionArea key={product.id} onClick={() => onAddProduct(product)}>
             <Card sx={{ padding: 0.75 }}>
               <Stack direction="row" alignItems="center" spacing={1}>
