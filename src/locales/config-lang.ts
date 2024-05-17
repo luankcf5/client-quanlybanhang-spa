@@ -2,26 +2,14 @@
 
 import merge from 'lodash/merge';
 // date fns
-import {
-  vi as viVNAdapter,
-  enUS as enUSAdapter,
-} from 'date-fns/locale';
+import { vi as viVNAdapter, enUS as enUSAdapter } from 'date-fns/locale';
 
 // core (MUI)
-import {
-  enUS as enUSCore,
-  viVN as viVNCore,
-} from '@mui/material/locale';
+import { enUS as enUSCore, viVN as viVNCore } from '@mui/material/locale';
 // data grid (MUI)
-import {
-  enUS as enUSDataGrid,
-  viVN as viVNDataGrid,
-} from '@mui/x-data-grid';
+import { enUS as enUSDataGrid, viVN as viVNDataGrid } from '@mui/x-data-grid';
 // date pickers (MUI)
-import {
-  enUS as enUSDate,
-  viVN as viVNDate,
-} from '@mui/x-date-pickers/locales';
+import { enUS as enUSDate, viVN as viVNDate } from '@mui/x-date-pickers/locales';
 
 // PLEASE REMOVE `LOCAL STORAGE` WHEN YOU CHANGE SETTINGS.
 // ----------------------------------------------------------------------

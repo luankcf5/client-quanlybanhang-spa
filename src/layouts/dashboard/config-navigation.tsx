@@ -57,40 +57,40 @@ export function useNavData() {
               },
             ],
           },
-          {
-            title: 'Nhật ký hệ thống',
-            path: paths.dashboard.logsystem.root,
-            icon: ICONS.log,
-            children: [
-              {
-                title: 'Nhật ký truy cập',
-                path: paths.dashboard.logsystem.login,
-                roles: ['teacher'],
-              },
-              {
-                title: 'Tra cứu tài khoản',
-                path: paths.dashboard.logsystem.search,
-                roles: ['teacher'],
-              },
-            ],
-          },
-          {
-            title: 'Quản lý chức năng',
-            path: paths.dashboard.permission.root,
-            icon: ICONS.permission,
-            children: [
-              {
-                title: 'Các nhóm chức năng',
-                path: paths.dashboard.permission.group,
-                roles: ['teacher'],
-              },
-              {
-                title: 'Danh sách chức năng',
-                path: paths.dashboard.permission.list,
-                roles: ['teacher'],
-              },
-            ],
-          },
+          // {
+          //   title: 'Nhật ký hệ thống',
+          //   path: paths.dashboard.logsystem.root,
+          //   icon: ICONS.log,
+          //   children: [
+          //     {
+          //       title: 'Nhật ký truy cập',
+          //       path: paths.dashboard.logsystem.login,
+          //       roles: ['teacher'],
+          //     },
+          //     {
+          //       title: 'Tra cứu tài khoản',
+          //       path: paths.dashboard.logsystem.search,
+          //       roles: ['teacher'],
+          //     },
+          //   ],
+          // },
+          // {
+          //   title: 'Quản lý chức năng',
+          //   path: paths.dashboard.permission.root,
+          //   icon: ICONS.permission,
+          //   children: [
+          //     {
+          //       title: 'Các nhóm chức năng',
+          //       path: paths.dashboard.permission.group,
+          //       roles: ['teacher'],
+          //     },
+          //     {
+          //       title: 'Danh sách chức năng',
+          //       path: paths.dashboard.permission.list,
+          //       roles: ['teacher'],
+          //     },
+          //   ],
+          // },
           {
             title: 'Quản lý quyền hạn',
             path: paths.dashboard.role.root,
@@ -101,11 +101,11 @@ export function useNavData() {
                 path: paths.dashboard.role.list,
                 roles: ['teacher'],
               },
-              {
-                title: 'Cấp quyền người dùng',
-                path: paths.dashboard.role.grant,
-                roles: ['teacher'],
-              },
+              // {
+              //   title: 'Cấp quyền người dùng',
+              //   path: paths.dashboard.role.grant,
+              //   roles: ['teacher'],
+              // },
             ],
           },
         ],
@@ -176,11 +176,11 @@ export function useNavData() {
                 path: paths.dashboard.order.list,
                 roles: ['teacher'],
               },
-              {
-                title: 'Đơn hàng đã huỷ',
-                path: paths.dashboard.order.cancel,
-                roles: ['teacher'],
-              },
+              // {
+              //   title: 'Đơn hàng đã huỷ',
+              //   path: paths.dashboard.order.cancel,
+              //   roles: ['teacher'],
+              // },
             ],
           },
         ],

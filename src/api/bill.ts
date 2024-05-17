@@ -34,6 +34,27 @@ export function useGetBills() {
 
 // ----------------------------------------------------------------------
 
+export function useGetBill(billId: any) {
+  const { data, isLoading, error, isValidating } = useSWR(
+    billId ? `${URL}/${billId}` : null,
+    fetcher
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      bill: data as IBill,
+      billLoading: isLoading,
+      billError: error,
+      billValidating: isValidating,
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+// ----------------------------------------------------------------------
+
 export async function createBill(billData: any) {
   const { data } = await axios.post(URL, billData);
   return data;
@@ -49,7 +70,7 @@ export async function createBills(billsData: any[]) {
 
 // ----------------------------------------------------------------------
 
-export async function updateBill(id: number, billData: any) {
+export async function updateBill(id: any, billData: any) {
   const { data } = await axios.patch(`${URL}/${id}`, billData);
   return data;
 }

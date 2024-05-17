@@ -1,5 +1,5 @@
-import React from 'react';
 import { sumBy } from 'lodash';
+import React, { useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -26,6 +26,10 @@ import IncrementerButton from '../../common/incrementer-button';
 
 export default function Invoice() {
   const { products, onChangeQuantity, onRemoveProduct } = useSaleContext();
+
+  const [discountPrice, setDiscountPrice] = useState(0);
+
+  const [customerSelected, setCustomerSelected] = useState<any>(null);
 
   return (
     <Stack justifyContent="space-between">
@@ -101,24 +105,39 @@ export default function Invoice() {
       </Scrollbar>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ padding: 1 }}>
-        <Typography variant="subtitle2" fontWeight="bold">
-          Tổng tiền:{' '}
-          {fCurrency(
-            sumBy(
-              products,
-              (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
-            )
-          ) || '0đ'}
-        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography variant="subtitle2" fontWeight="bold">
+            Tổng tiền:{' '}
+            {fCurrency(
+              sumBy(
+                products,
+                (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
+              ) - discountPrice
+            ) || '0đ'}
+          </Typography>
+
+          {discountPrice > 0 && (
+            <Typography variant="subtitle2" color="error">
+              ( - {fCurrency(discountPrice || 0)} )
+            </Typography>
+          )}
+        </Stack>
 
         <Stack direction="row" spacing={0.5}>
-          <DeliveryInvoice />
+          <DeliveryInvoice customerSelected={customerSelected} />
 
-          <VoucherInvoice />
+          <VoucherInvoice
+            discountPrice={discountPrice}
+            setDiscountPrice={setDiscountPrice}
+            customerSelected={customerSelected}
+          />
 
           <NoteInvoice />
 
-          <CustomerInvoice />
+          <CustomerInvoice
+            customerSelected={customerSelected}
+            setCustomerSelected={setCustomerSelected}
+          />
         </Stack>
       </Stack>
     </Stack>

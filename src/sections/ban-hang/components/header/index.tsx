@@ -1,11 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-
-import { useGetBills } from 'src/api/bill';
 
 import { IBill } from 'src/types/bill';
 
@@ -16,22 +12,12 @@ import KeyboardOption from './keyboard-option';
 
 // ----------------------------------------------------------------------
 
-export default function BanHangHeader() {
-  const { bills } = useGetBills();
+type Props = {
+  billList: IBill[];
+  handleAddNewBill: (bill: IBill) => void;
+};
 
-  const [billList, setBillList] = useState<IBill[]>([]);
-
-  useEffect(() => {
-    setBillList(bills);
-  }, [bills]);
-
-  const handleAddNewBill = useCallback(
-    (bill: IBill) => {
-      setBillList((pre) => [...pre, bill]);
-    },
-    [setBillList]
-  );
-
+export default function BanHangHeader({ billList, handleAddNewBill }: Props) {
   return (
     <Stack
       direction="row"

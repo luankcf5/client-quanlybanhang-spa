@@ -17,13 +17,14 @@ import styles from './print-invoice-style';
 // ----------------------------------------------------------------------
 
 type InvoicePDFProps = {
+  title: string;
   invoice: any;
   products: any;
   open: boolean;
   onClose: VoidFunction;
 };
 
-export default function PrintInvoice({ invoice, products, open, onClose }: InvoicePDFProps) {
+export default function PrintInvoice({ title, invoice, products, open, onClose }: InvoicePDFProps) {
   const totalPrice = sumBy(
     products,
     (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
@@ -51,7 +52,7 @@ export default function PrintInvoice({ invoice, products, open, onClose }: Invoi
               <Page size="C8" style={styles.page}>
                 <View style={[styles.gridContainer, styles.mb8]}>
                   <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
-                    <Text style={styles.h4}>HOÁ ĐƠN THANH TOÁN</Text>
+                    <Text style={styles.h4}>{title}</Text>
 
                     <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
                     <Text>{`Ngày: ${fDateTime(invoice?.createdAt)}`}</Text>
@@ -110,12 +111,71 @@ export default function PrintInvoice({ invoice, products, open, onClose }: Invoi
                       </View>
                     ))}
 
+                    {invoice?.name && (
+                      <>
+                        <View style={[styles.tableRow, styles.noBorder]}>
+                          <View style={styles.tableCell_5}>
+                            <Text style={styles.body1}>Địa chỉ giao hàng : </Text>
+                          </View>
+                          <View style={[styles.tableCell_5, styles.alignRight]}>
+                            <Text style={styles.body1}>{invoice?.address || 'Không'}</Text>
+                          </View>
+                        </View>
+                        <View style={[styles.tableRow, styles.noBorder]}>
+                          <View style={styles.tableCell_5}>
+                            <Text style={styles.body1}>Điện thoại giao hàng : </Text>
+                          </View>
+                          <View style={[styles.tableCell_5, styles.alignRight]}>
+                            <Text style={styles.body1}>{invoice?.phone || 'Không'}</Text>
+                          </View>
+                        </View>
+                        <View style={[styles.tableRow, styles.noBorder]}>
+                          <View style={styles.tableCell_5}>
+                            <Text style={styles.body1}>Người nhận hàng : </Text>
+                          </View>
+                          <View style={[styles.tableCell_5, styles.alignRight]}>
+                            <Text style={styles.body1}>{invoice?.name || 'Không'}</Text>
+                          </View>
+                        </View>
+                        <View style={[styles.tableRow, styles.noBorder]}>
+                          <View style={styles.tableCell_5}>
+                            <Text style={styles.body1}>Phí giao hàng : </Text>
+                          </View>
+                          <View style={[styles.tableCell_5, styles.alignRight]}>
+                            <Text style={styles.body1}>{fCurrency(invoice?.fee) || '0đ'}</Text>
+                          </View>
+                        </View>
+                      </>
+                    )}
+
+                    <View style={[styles.tableRow, styles.noBorder]}>
+                      <View style={styles.tableCell_5}>
+                        <Text style={styles.body1}>Ghi chú : </Text>
+                      </View>
+                      <View style={[styles.tableCell_5, styles.alignRight]}>
+                        <Text style={styles.body1}>{invoice?.note || 'Không'}</Text>
+                      </View>
+                    </View>
+
+                    <View style={[styles.tableRow, styles.noBorder]}>
+                      <View style={styles.tableCell_5}>
+                        <Text style={styles.body1}>Giảm giá : </Text>
+                      </View>
+                      <View style={[styles.tableCell_5, styles.alignRight]}>
+                        <Text style={styles.body1}>
+                          {fCurrency(invoice?.discountPrice || '0đ')}
+                        </Text>
+                      </View>
+                    </View>
+
                     <View style={[styles.tableRow, styles.noBorder]}>
                       <View style={styles.tableCell_5}>
                         <Text style={styles.h4}>Tổng tiền : </Text>
                       </View>
                       <View style={[styles.tableCell_5, styles.alignRight]}>
-                        <Text style={styles.h4}>{fCurrency(totalPrice || '0đ')}</Text>
+                        <Text style={styles.h4}>
+                          {fCurrency(totalPrice - Number(invoice?.discountPrice) || '0đ')}
+                        </Text>
                       </View>
                     </View>
                   </View>

@@ -1,36 +1,48 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import { _customers } from 'src/_mock/_customers';
+import { updateBill } from 'src/api/bill';
 
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
+import { useSaleContext } from '../../context';
 import IconButtonAnimate from './icon-button-animate';
 
 // ----------------------------------------------------------------------
 
+type Props = {
+  customerSelected: any;
+};
+
 const defaultInfo = {
   name: '',
   address: '',
-  phoneNumber: '',
-  deliveryFee: '',
+  phone: '',
+  fee: '',
 };
 
-export default function DeliveryInvoice() {
+export default function DeliveryInvoice({ customerSelected }: Props) {
   const popover = usePopover();
 
+  const { selectedBill } = useSaleContext();
+
   const [deliveryInfo, setDeliveryInfo] = useState(defaultInfo);
+
+  useEffect(() => {
+    setDeliveryInfo({
+      name: selectedBill?.name || customerSelected?.name || '',
+      address: selectedBill?.address || customerSelected?.address || '',
+      phone: selectedBill?.phone || customerSelected?.phone || '',
+      fee: selectedBill?.fee || customerSelected?.fee || 0,
+    });
+  }, [customerSelected]);
 
   const handleChangeInfo = useCallback(
     (name: string, value: string) => {
@@ -47,12 +59,13 @@ export default function DeliveryInvoice() {
   }, [setDeliveryInfo, popover]);
 
   const handleAddDeliveryInfo = useCallback(() => {
+    updateBill(selectedBill?.id, deliveryInfo);
     popover.onClose();
-  }, [setDeliveryInfo, popover]);
+  }, [setDeliveryInfo, updateBill, selectedBill, popover]);
 
   return (
     <>
-      <IconButtonAnimate onClick={popover.onOpen}>
+      <IconButtonAnimate onClick={popover.onOpen} disabled={!selectedBill}>
         <Badge variant="dot" color="error" invisible={!deliveryInfo.address}>
           <Iconify icon="iconamoon:delivery-fast-fill" />
         </Badge>
@@ -60,41 +73,8 @@ export default function DeliveryInvoice() {
 
       <CustomPopover open={popover.open} onClose={popover.onClose} arrow="bottom-right">
         <Stack spacing={1} sx={{ padding: 1, width: 420 }}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="subtitle2">Thông tin giao hàng</Typography>
+          <Typography variant="subtitle2">Thông tin giao hàng</Typography>
 
-            <FormControl sx={{ width: 220 }}>
-              <InputLabel size="small">Lựa chọn khách hàng</InputLabel>
-              <Select
-                size="small"
-                label="Lựa chọn khách hàng"
-                MenuProps={{
-                  PaperProps: {
-                    style: {
-                      maxHeight: 320,
-                    },
-                  },
-                }}
-              >
-                {_customers.map((customer) => (
-                  <MenuItem
-                    key={customer.id}
-                    value={customer.id}
-                    onClick={() =>
-                      setDeliveryInfo({
-                        name: customer.name,
-                        address: customer.address,
-                        phoneNumber: customer.phoneNumber,
-                        deliveryFee: '',
-                      })
-                    }
-                  >
-                    {customer.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Stack>
           <TextField
             multiline
             rows={3}
@@ -114,15 +94,15 @@ export default function DeliveryInvoice() {
           <TextField
             size="small"
             placeholder="Số điện thoại người nhận..."
-            value={deliveryInfo.phoneNumber}
-            onChange={(event) => handleChangeInfo('phoneNumber', event.target.value)}
+            value={deliveryInfo.phone}
+            onChange={(event) => handleChangeInfo('phone', event.target.value)}
           />
 
           <TextField
             size="small"
             placeholder="Phí giao hàng..."
-            value={deliveryInfo.deliveryFee}
-            onChange={(event) => handleChangeInfo('deliveryFee', event.target.value)}
+            value={deliveryInfo.fee}
+            onChange={(event) => handleChangeInfo('fee', event.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">

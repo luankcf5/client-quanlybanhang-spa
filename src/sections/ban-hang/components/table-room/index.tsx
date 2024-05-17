@@ -10,19 +10,29 @@ import CardActionArea from '@mui/material/CardActionArea';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { fCurrency } from 'src/utils/format-number';
+import axios from 'src/utils/axios';
 
 import { useGetRooms } from 'src/api/room';
+import { createBill, updateBill } from 'src/api/bill';
 
 import Iconify from 'src/components/iconify';
 
 import { IRoom } from 'src/types/room';
+import { IBill } from 'src/types/bill';
 
 import Form from './form';
+import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-export default function TableRoom() {
+type Props = {
+  setTabView: (tabView: string) => void;
+  onAddNewBill: (bill: IBill) => void;
+};
+
+export default function TableRoom({ setTabView, onAddNewBill }: Props) {
+  const { onGetBill } = useSaleContext();
+
   const { rooms } = useGetRooms();
 
   const openForm = useBoolean();
@@ -40,13 +50,36 @@ export default function TableRoom() {
     [setRoomList]
   );
 
+  const handleChangeRoom = useCallback(
+    async (room: IRoom) => {
+      if (room?.currentBill) {
+        const response = await axios.get(`bills/${room?.currentBill.id}`);
+        onGetBill(response.data);
+      } else {
+        const bill = await createBill({
+          statusId: 1,
+          regularPrice: 0,
+          discountPrice: 0,
+          totalPrice: 0,
+        });
+        onGetBill(bill);
+        updateBill(bill.id, {
+          roomId: room.id,
+        });
+        onAddNewBill(bill);
+      }
+      setTabView('1');
+    },
+    [onGetBill, createBill, onAddNewBill, setTabView, updateBill]
+  );
+
   return (
     <>
       <Box sx={{ p: 1, height: '100%' }}>
         <Grid container spacing={2}>
           {roomList.map((room, index) => (
             <Grid key={room.id} xs={6} md={2}>
-              <CardActionArea>
+              <CardActionArea onClick={() => handleChangeRoom(room)}>
                 <Card sx={{ aspectRatio: '1/1', boxShadow: (theme) => theme.shadows[3] }}>
                   <Stack
                     justifyContent="space-between"
@@ -63,11 +96,11 @@ export default function TableRoom() {
                     />
                     <Button
                       fullWidth
-                      color={room.isVip ? 'warning' : 'primary'}
+                      color={room.currentBill ? 'warning' : 'primary'}
                       variant="contained"
                       sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
                     >
-                      {room.isVip ? fCurrency(200000) : 'Gọi món'}
+                      {room.currentBill ? 'Đang hoạt động' : 'Gọi món'}
                     </Button>
                   </Stack>
                 </Card>

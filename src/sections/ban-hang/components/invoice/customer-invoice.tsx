@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import { sumBy } from 'lodash';
+import React, { useEffect, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -9,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Autocomplete from '@mui/material/Autocomplete';
 
+import { updateBill } from 'src/api/bill';
 import { useGetCustomers } from 'src/api/customer';
 
 import Iconify from 'src/components/iconify';
@@ -16,25 +18,46 @@ import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
 import { ICustomer } from 'src/types/customer';
 
+import { useSaleContext } from '../../context';
 import IconButtonAnimate from './icon-button-animate';
 
 // ----------------------------------------------------------------------
 
-export default function CustomerInvoice() {
+type Props = {
+  customerSelected: ICustomer | null;
+  setCustomerSelected: (customer: ICustomer | null | undefined) => void;
+};
+
+export default function CustomerInvoice({ customerSelected, setCustomerSelected }: Props) {
   const popover = usePopover();
 
   const { customers } = useGetCustomers();
 
-  const [customerSelected, setCustomerSelected] = useState<ICustomer | null>(null);
+  const { products, selectedBill } = useSaleContext();
+
+  useEffect(() => {
+    setCustomerSelected(selectedBill?.customer);
+  }, [selectedBill]);
+
+  const totalPrice = sumBy(
+    products,
+    (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
+  );
 
   const handleReset = useCallback(() => {
     setCustomerSelected(null);
     popover.onClose();
-  }, [setCustomerSelected, popover]);
+    updateBill(selectedBill?.id, {
+      customerId: null,
+    });
+  }, [setCustomerSelected, popover, updateBill, selectedBill]);
 
-  const handleAddNote = useCallback(() => {
+  const handleAddCustomer = useCallback(() => {
     popover.onClose();
-  }, [setCustomerSelected, popover]);
+    updateBill(selectedBill?.id, {
+      customerId: customerSelected?.id,
+    });
+  }, [popover, updateBill, selectedBill, customerSelected]);
 
   const handleAddNewSalesProduct = useCallback(
     (value: any, reason: any) => {
@@ -50,7 +73,7 @@ export default function CustomerInvoice() {
 
   return (
     <>
-      <IconButtonAnimate onClick={popover.onOpen}>
+      <IconButtonAnimate onClick={popover.onOpen} disabled={!selectedBill}>
         <Badge variant="dot" color="error" invisible={!customerSelected}>
           <Iconify icon="raphael:customer" />
         </Badge>
@@ -71,6 +94,7 @@ export default function CustomerInvoice() {
                 margin="none"
               />
             )}
+            value={customerSelected}
             onChange={(event, value, reason) => handleAddNewSalesProduct(value, reason)}
             renderOption={renderOption}
           />
@@ -92,19 +116,23 @@ export default function CustomerInvoice() {
           </Typography>
 
           <Typography variant="body2">
-            <strong>Điểm tích luỹ :</strong> {`${customerSelected?.point || 0} điểm`}
+            <strong>Tổng điểm tích luỹ :</strong> {`${customerSelected?.point || 0} điểm`}
+          </Typography>
+
+          <Typography variant="body2">
+            <strong>Tích điểm từ đơn hàng :</strong> {`${Math.round(totalPrice / 100)} điểm`}
           </Typography>
 
           <Stack direction="row" justifyContent="end" spacing={1}>
             <Button size="small" color="error" onClick={handleReset} disabled={!customerSelected}>
-              Huỷ
+              Huỷ khách hàng
             </Button>
 
             <Button
               size="small"
               variant="contained"
               color="primary"
-              onClick={handleAddNote}
+              onClick={handleAddCustomer}
               disabled={!customerSelected}
             >
               Xác nhận

@@ -15,8 +15,6 @@ import Searchbar from '../common/searchbar';
 import { NAV, HEADER } from '../config-layout';
 import SettingsButton from '../common/settings-button';
 import LanguagePopover from '../common/language-popover';
-import ContactsPopover from '../common/contacts-popover';
-import NotificationsPopover from '../common/notifications-popover';
 
 // ----------------------------------------------------------------------
 
@@ -67,9 +65,9 @@ export default function Header({ onOpenNav }: Props) {
 
         <LanguagePopover />
 
-        <NotificationsPopover />
+        {/* <NotificationsPopover />
 
-        <ContactsPopover />
+        <ContactsPopover /> */}
 
         <SettingsButton />
       </Stack>

@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
+import { useGetBills } from 'src/api/bill';
 import { RoleBasedGuard } from 'src/auth/guard';
+
+import { IBill } from 'src/types/bill';
 
 import { SaleProvider } from './context';
 import Invoice from './components/invoice';
@@ -20,6 +23,21 @@ import ProductContainer from './components/product';
 export default function BanHang() {
   const [tabView, setTabView] = useState('1');
 
+  const { bills } = useGetBills();
+
+  const [billList, setBillList] = useState<IBill[]>([]);
+
+  useEffect(() => {
+    setBillList(bills);
+  }, [bills]);
+
+  const handleAddNewBill = useCallback(
+    (bill: IBill) => {
+      setBillList((pre) => [...pre, bill]);
+    },
+    [setBillList]
+  );
+
   return (
     <SaleProvider>
       <RoleBasedGuard hasContent roles={['teacher']}>
@@ -30,7 +48,7 @@ export default function BanHang() {
           }}
         >
           <Stack height="100%" justifyContent="space-between">
-            <BanHangHeader />
+            <BanHangHeader billList={billList} handleAddNewBill={handleAddNewBill} />
             {tabView === '1' && (
               <Grid container sx={{ p: 1, height: '100%' }}>
                 <Grid xs={12} md={6}>
@@ -41,7 +59,9 @@ export default function BanHang() {
                 </Grid>
               </Grid>
             )}
-            {tabView === '2' && <TableRoom />}
+            {tabView === '2' && (
+              <TableRoom setTabView={setTabView} onAddNewBill={handleAddNewBill} />
+            )}
             <BanHangFooter tabView={tabView} setTabView={setTabView} />
           </Stack>
         </Card>

@@ -14,17 +14,26 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { fDateTime } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
+import { updateBill } from 'src/api/bill';
+import { updateCustomer } from 'src/api/customer';
+
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
+
+import { IBill } from 'src/types/bill';
 
 import PrintInvoice from './print-invoice';
 import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-export default function PaymentAction() {
-  const { selectedBill, products } = useSaleContext();
+type Props = {
+  bill: IBill | null;
+};
+
+export default function PaymentAction({ bill }: Props) {
+  const { products, onGetBill } = useSaleContext();
 
   const confirmAction = useBoolean();
 
@@ -37,10 +46,31 @@ export default function PaymentAction() {
 
   const handleOpenPrint = useCallback(() => {
     openPrint.onTrue();
-  }, []);
+    updateBill(bill?.id, {
+      statusId: 2,
+      roomId: null,
+    });
+    if (bill?.customer) {
+      updateCustomer(bill?.customer.id, {
+        point: bill.customer.point + Math.round(totalPrice / 100),
+      });
+    }
+    onGetBill(null);
+  }, [bill, totalPrice, openPrint, updateBill, updateCustomer]);
+
+  const handlePrintClose = useCallback(() => {
+    confirmAction.onFalse();
+    openPrint.onFalse();
+  }, [confirmAction, openPrint]);
   return (
     <>
-      <Button variant="contained" size="small" color="primary" onClick={confirmAction.onTrue}>
+      <Button
+        variant="contained"
+        size="small"
+        color="primary"
+        onClick={confirmAction.onTrue}
+        disabled={bill?.statusId !== 1}
+      >
         Thanh toán
       </Button>
 
@@ -55,7 +85,7 @@ export default function PaymentAction() {
             height: '100%',
             width: {
               xs: 320,
-              md: 630,
+              md: 550,
             },
           }}
         >
@@ -63,7 +93,7 @@ export default function PaymentAction() {
             <Grid xs={12}>
               <Stack direction="row" justifyContent="space-between" alignItems="center">
                 <Typography variant="body2" align="right">
-                  {fDateTime(selectedBill?.createdAt)}
+                  {fDateTime(bill?.createdAt)}
                 </Typography>
 
                 <IconButton onClick={confirmAction.onFalse}>
@@ -78,13 +108,13 @@ export default function PaymentAction() {
 
             <Grid xs={12}>
               <Typography variant="h6" textTransform="uppercase" textAlign="center" sx={{ py: 1 }}>
-                Hoá đơn số {selectedBill?.id}
+                Hoá đơn số {bill?.id}
               </Typography>
             </Grid>
 
             <Grid xs={12}>
               <Typography variant="body2">
-                Khách hàng : <strong>{selectedBill?.customer?.name || 'Khách hàng'}</strong>
+                Khách hàng : <strong>{bill?.customer?.name || 'Khách hàng'}</strong>
               </Typography>
             </Grid>
 
@@ -105,7 +135,7 @@ export default function PaymentAction() {
               </Stack>
               <Scrollbar
                 sx={{
-                  height: 'calc(100vh - 420px)',
+                  height: 'calc(100vh - 400px)',
                 }}
               >
                 {products.map((product: any, index: number) => (
@@ -127,6 +157,10 @@ export default function PaymentAction() {
                         {fCurrency(Number(product.product.price) * Number(product.amount))}
                       </TextMaxLine>
                     </Stack>
+
+                    {product.note && (
+                      <Typography variant="caption">Ghi chú : {product.note}</Typography>
+                    )}
                   </Grid>
                 ))}
               </Scrollbar>
@@ -138,23 +172,26 @@ export default function PaymentAction() {
               <Divider sx={{ borderStyle: 'dashed' }} />
             </Grid>
 
+            {bill?.note && (
+              <>
+                <Grid xs={6}>
+                  <Typography variant="body2">Ghi chú đơn hàng :</Typography>
+                </Grid>
+                <Grid xs={6}>
+                  <Typography variant="body2" align="right">
+                    {bill?.note}
+                  </Typography>
+                </Grid>
+              </>
+            )}
+
             <Grid xs={6}>
               <Typography variant="body2">Giảm giá :</Typography>
             </Grid>
 
             <Grid xs={6}>
-              <Typography variant="body2" align="right" color="error.main">
-                30%
-              </Typography>
-            </Grid>
-
-            <Grid xs={6}>
-              <Typography variant="body2">Sử dụng điểm :</Typography>
-            </Grid>
-
-            <Grid xs={6}>
-              <Typography variant="body2" align="right" color="error.main">
-                -1000 điểm
+              <Typography variant="body2" align="right">
+                {fCurrency(Number(bill?.discountPrice)) || '0đ'}
               </Typography>
             </Grid>
 
@@ -163,18 +200,8 @@ export default function PaymentAction() {
             </Grid>
 
             <Grid xs={6}>
-              <Typography variant="body2" align="right" color="error.main">
-                <Typography>-{fCurrency(20000)}</Typography>
-              </Typography>
-            </Grid>
-
-            <Grid xs={6}>
-              <Typography variant="body2">Tích điểm từ đơn hàng :</Typography>
-            </Grid>
-
-            <Grid xs={6}>
               <Typography variant="body2" align="right">
-                {totalPrice / 100} điểm
+                <Typography>{fCurrency(Number(bill?.fee)) || '0đ'}</Typography>
               </Typography>
             </Grid>
 
@@ -184,7 +211,9 @@ export default function PaymentAction() {
 
             <Grid xs={6}>
               <Typography align="right">
-                <Typography variant="h6">{fCurrency(totalPrice) || '0đ'}</Typography>
+                <Typography variant="h6">
+                  {fCurrency(totalPrice - Number(bill?.discountPrice)) || '0đ'}
+                </Typography>
               </Typography>
             </Grid>
           </Grid>
@@ -202,10 +231,11 @@ export default function PaymentAction() {
       </Drawer>
 
       <PrintInvoice
-        invoice={selectedBill}
+        title="HOÁ ĐƠN THANH TOÁN"
+        invoice={bill}
         products={products}
         open={openPrint.value}
-        onClose={openPrint.onFalse}
+        onClose={handlePrintClose}
       />
     </>
   );

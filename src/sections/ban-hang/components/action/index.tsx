@@ -1,29 +1,29 @@
 import React from 'react';
 
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 
+import { useGetBill } from 'src/api/bill';
+
+import TempInvoice from './temp-invoice';
 import PaymentAction from './payment-action';
+import CancelInvoice from './cancel-invoice';
+import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
 export default function Action() {
+  const { selectedBill, products } = useSaleContext();
+
+  const { bill } = useGetBill(selectedBill?.id);
+
   return (
     <Stack direction="row" justifyContent="space-between" sx={{ padding: 1 }}>
-      <Button variant="contained" size="small" color="error">
-        Huỷ đơn
-      </Button>
+      <CancelInvoice bill={bill} />
 
       <Stack direction="row" spacing={0.5}>
-        <Button variant="contained" size="small" color="warning">
-          Trả hàng
-        </Button>
+        <TempInvoice bill={bill} products={products} />
 
-        <Button variant="contained" size="small" color="secondary">
-          Tạm tính
-        </Button>
-
-        <PaymentAction />
+        <PaymentAction bill={bill} />
       </Stack>
     </Stack>
   );

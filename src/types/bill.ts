@@ -15,13 +15,11 @@ export type IBill = {
     id: number;
     name: string;
   };
-  delivery: {
-    id: number;
-    phone: string;
-    address: string;
-    name: string;
-    fee: number;
-  };
+  statusId: number;
+  phone: string;
+  address: string;
+  name: string;
+  fee: number;
   voucher: IVoucher;
   products: {
     product: IProduct;

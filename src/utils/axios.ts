@@ -36,6 +36,15 @@ export const endpoints = {
     register: '/auth/register',
     refreshToken: 'auth/refresh-token',
   },
+  user: {
+    root: '/users',
+  },
+  permission: {
+    root: '/permissions',
+  },
+  role: {
+    root: '/roles',
+  },
   category: {
     root: '/categories',
   },

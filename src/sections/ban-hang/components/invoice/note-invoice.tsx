@@ -1,13 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
+import { updateBill } from 'src/api/bill';
+
 import Iconify from 'src/components/iconify';
 import CustomPopover, { usePopover } from 'src/components/custom-popover';
 
+import { useSaleContext } from '../../context';
 import IconButtonAnimate from './icon-button-animate';
 
 // ----------------------------------------------------------------------
@@ -15,7 +18,13 @@ import IconButtonAnimate from './icon-button-animate';
 export default function NoteInvoice() {
   const popover = usePopover();
 
-  const [noteValue, setNoteValue] = useState('');
+  const { selectedBill } = useSaleContext();
+
+  const [noteValue, setNoteValue] = useState<any>('');
+
+  useEffect(() => {
+    setNoteValue(selectedBill?.note);
+  }, [selectedBill]);
 
   const handleReset = useCallback(() => {
     setNoteValue('');
@@ -24,11 +33,14 @@ export default function NoteInvoice() {
 
   const handleAddNote = useCallback(() => {
     popover.onClose();
-  }, [setNoteValue, popover]);
+    updateBill(selectedBill?.id, {
+      note: noteValue,
+    });
+  }, [setNoteValue, popover, updateBill, selectedBill]);
 
   return (
     <>
-      <IconButtonAnimate onClick={popover.onOpen}>
+      <IconButtonAnimate onClick={popover.onOpen} disabled={!selectedBill}>
         <Badge variant="dot" color="error" invisible={!noteValue}>
           <Iconify icon="material-symbols:note-alt" />
         </Badge>
