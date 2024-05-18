@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { sumBy } from 'lodash';
 import React, { useCallback } from 'react';
 
@@ -44,6 +45,35 @@ export default function PaymentAction({ bill }: Props) {
     (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
   );
 
+  const handleTelegramNotification = useCallback(async () => {
+    const CHANNEL_ID = '@phanmembanhangspa';
+    const TELEGRAM_BOT_TOKEN = '7041679216:AAHca7dv6I9pQLi_nS0UdjYrF3jrRw9U1Qs';
+    const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+    try {
+      await axios.post(TELEGRAM_API_URL, {
+        chat_id: CHANNEL_ID,
+        text: `ĐƠN HÀNG THANH TOÁN THÀNH CÔNG\nMã số đơn hàng: Đơn hàng số ${bill?.id}\n${products.map(
+          (product: any, index) =>
+            `${index + 1}. ${product.product.name} x ${product.amount} = ${fCurrency(
+              (product.product.price - product.product.discount) * product.amount
+            )}\n`
+        )}Ghi chú đơn hàng: ${bill?.note || 'không có'}\nTổng tiền: ${fCurrency(
+          totalPrice
+        )}\nGiảm giá: ${fCurrency(bill?.discountPrice || 0)}\nThành tiền: ${fCurrency(
+          totalPrice - (bill?.discountPrice || 0)
+        )}\nTên khách hàng: ${bill?.customer?.name || 'Khách hàng'}\nSố điện thoại: ${
+          bill?.customer?.phone || 'Không có'
+        }\nĐịa chỉ: ${bill?.customer?.address || 'Không có'}\nNơi giao hàng: ${
+          bill?.address || 'Không có'
+        }\nSố điện thoại người nhận: ${bill?.phone || 'Không có'}\nNgười nhận hàng: ${
+          bill?.address || 'Không có'
+        }\nPhí giao hàng: ${fCurrency(bill?.fee || 0)}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [bill, products]);
+
   const handleOpenPrint = useCallback(() => {
     openPrint.onTrue();
     updateBill(bill?.id, {
@@ -55,13 +85,15 @@ export default function PaymentAction({ bill }: Props) {
         point: bill.customer.point + Math.round(totalPrice / 100),
       });
     }
+    handleTelegramNotification();
     onGetBill(null);
-  }, [bill, totalPrice, openPrint, updateBill, updateCustomer]);
+  }, [bill, totalPrice, openPrint, updateBill, updateCustomer, handleTelegramNotification]);
 
   const handlePrintClose = useCallback(() => {
     confirmAction.onFalse();
     openPrint.onFalse();
   }, [confirmAction, openPrint]);
+
   return (
     <>
       <Button

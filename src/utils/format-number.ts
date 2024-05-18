@@ -44,7 +44,7 @@ export function fNumber(inputValue: InputValue) {
 export function fCurrency(inputValue: InputValue) {
   const { code, currency } = getLocaleCode();
 
-  if (!inputValue) return '';
+  if (!inputValue) return '0đ';
 
   const number = Number(inputValue);
 
