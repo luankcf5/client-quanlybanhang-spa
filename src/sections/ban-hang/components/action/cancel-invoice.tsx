@@ -9,17 +9,13 @@ import { updateBill } from 'src/api/bill';
 
 import { ConfirmDialog } from 'src/components/custom-dialog';
 
-import { IBill } from 'src/types/bill';
-
 import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  bill: IBill | null;
-};
+export default function CancelInvoice() {
+  const { selectedBill } = useSaleContext();
 
-export default function CancelInvoice({ bill }: Props) {
   const openConfirm = useBoolean();
 
   const { onGetBill } = useSaleContext();
@@ -27,13 +23,13 @@ export default function CancelInvoice({ bill }: Props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleCancelBill = useCallback(() => {
-    updateBill(bill?.id, {
+    updateBill(selectedBill?.id, {
       statusId: 3,
     });
     onGetBill(null);
     openConfirm.onFalse();
     enqueueSnackbar('Huỷ đơn hàng thành công !');
-  }, [bill, openConfirm, updateBill, onGetBill, enqueueSnackbar]);
+  }, [selectedBill, openConfirm, updateBill, onGetBill, enqueueSnackbar]);
   return (
     <>
       <Button
@@ -41,7 +37,7 @@ export default function CancelInvoice({ bill }: Props) {
         size="small"
         color="error"
         onClick={openConfirm.onTrue}
-        disabled={bill?.statusId !== 2}
+        disabled={selectedBill?.statusId !== 2}
       >
         Huỷ đơn
       </Button>

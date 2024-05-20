@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { fCurrency } from 'src/utils/format-number';
@@ -25,14 +26,48 @@ import IncrementerButton from '../../common/incrementer-button';
 // ----------------------------------------------------------------------
 
 export default function Invoice() {
-  const { products, onChangeQuantity, onRemoveProduct } = useSaleContext();
+  const { products, selectedBill, onChangeQuantity, onRemoveProduct } = useSaleContext();
 
   const [discountPrice, setDiscountPrice] = useState(0);
 
   const [customerSelected, setCustomerSelected] = useState<any>(null);
 
   return (
-    <Stack justifyContent="space-between">
+    <Stack justifyContent="space-between" sx={{ position: 'relative' }}>
+      {selectedBill?.statusId === 2 && (
+        <Stack
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 9999,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.68),
+          }}
+        >
+          <Iconify width={40} icon="ic:round-lock" />
+          <Typography variant="body2">Hoá đơn này đã thanh toán</Typography>
+        </Stack>
+      )}
+
+      {selectedBill?.statusId === 3 && (
+        <Stack
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 9999,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.68),
+          }}
+        >
+          <Iconify width={40} icon="ic:round-lock" />
+          <Typography variant="body2">Hoá đơn này đã bị huỷ</Typography>
+        </Stack>
+      )}
+
       <Scrollbar
         sx={{ height: 'calc(100vh - 232px)', backgroundColor: (theme) => theme.palette.grey[100] }}
       >

@@ -55,6 +55,7 @@ export default function ProductContainer() {
           <Typography variant="body2">Bạn chưa chọn hoá đơn</Typography>
         </Stack>
       )}
+
       <Stack sx={{ height: '100%' }}>
         <ProductHeader
           categories={categories}
@@ -63,6 +64,7 @@ export default function ProductContainer() {
           setFilterCategory={setFilterCategory}
           setFilterName={setFilterName}
         />
+
         <ProductList products={productData} />
         <Divider sx={{ borderStyle: 'dashed' }} />
         <Action />

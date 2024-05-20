@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { sumBy } from 'lodash';
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -15,8 +15,8 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { fDateTime } from 'src/utils/format-time';
 import { fCurrency } from 'src/utils/format-number';
 
-import { updateBill } from 'src/api/bill';
 import { updateCustomer } from 'src/api/customer';
+import { getBill, updateBill } from 'src/api/bill';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -29,12 +29,10 @@ import { useSaleContext } from '../../context';
 
 // ----------------------------------------------------------------------
 
-type Props = {
-  bill: IBill | null;
-};
+export default function PaymentAction() {
+  const { selectedBill, products, onGetBill } = useSaleContext();
 
-export default function PaymentAction({ bill }: Props) {
-  const { products, onGetBill } = useSaleContext();
+  const [bill, setBill] = useState<IBill | null>(null);
 
   const confirmAction = useBoolean();
 
@@ -74,6 +72,12 @@ export default function PaymentAction({ bill }: Props) {
     }
   }, [bill, products]);
 
+  const handlePayment = useCallback(async () => {
+    const currentBill = await getBill(selectedBill?.id);
+    setBill(currentBill);
+    confirmAction.onTrue();
+  }, [getBill, selectedBill, setBill, confirmAction]);
+
   const handleOpenPrint = useCallback(() => {
     openPrint.onTrue();
     updateBill(bill?.id, {
@@ -86,13 +90,21 @@ export default function PaymentAction({ bill }: Props) {
       });
     }
     handleTelegramNotification();
-    onGetBill(null);
-  }, [bill, totalPrice, openPrint, updateBill, updateCustomer, handleTelegramNotification]);
+  }, [
+    totalPrice,
+    openPrint,
+    selectedBill,
+    getBill,
+    updateBill,
+    updateCustomer,
+    handleTelegramNotification,
+  ]);
 
   const handlePrintClose = useCallback(() => {
     confirmAction.onFalse();
     openPrint.onFalse();
-  }, [confirmAction, openPrint]);
+    onGetBill(null);
+  }, [confirmAction, openPrint, onGetBill]);
 
   return (
     <>
@@ -100,8 +112,8 @@ export default function PaymentAction({ bill }: Props) {
         variant="contained"
         size="small"
         color="primary"
-        onClick={confirmAction.onTrue}
-        disabled={bill?.statusId !== 1}
+        onClick={handlePayment}
+        disabled={selectedBill?.statusId !== 1}
       >
         Thanh toán
       </Button>

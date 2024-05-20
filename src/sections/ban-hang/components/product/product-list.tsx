@@ -4,10 +4,13 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
+import { alpha } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 
 import { fCurrency } from 'src/utils/format-number';
 
+import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 import TextMaxLine from 'src/components/text-max-line';
 
@@ -20,10 +23,43 @@ type Props = {
 };
 
 export default function ProductList({ products }: Props) {
-  const { onAddProduct } = useSaleContext();
+  const { selectedBill, onAddProduct } = useSaleContext();
 
   return (
-    <Scrollbar sx={{ maxHeight: 'calc(100vh - 280px)' }}>
+    <Scrollbar sx={{ height: 'calc(100vh - 280px)', position: 'relative' }}>
+      {selectedBill?.statusId === 2 && (
+        <Stack
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 9999,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.68),
+          }}
+        >
+          <Iconify width={40} icon="ic:round-lock" />
+          <Typography variant="body2">Hoá đơn này đã thanh toán</Typography>
+        </Stack>
+      )}
+
+      {selectedBill?.statusId === 3 && (
+        <Stack
+          spacing={1}
+          alignItems="center"
+          justifyContent="center"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            zIndex: 9999,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.68),
+          }}
+        >
+          <Iconify width={40} icon="ic:round-lock" />
+          <Typography variant="body2">Hoá đơn này đã bị huỷ</Typography>
+        </Stack>
+      )}
       <Box
         display="grid"
         gridTemplateColumns={{ xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)' }}

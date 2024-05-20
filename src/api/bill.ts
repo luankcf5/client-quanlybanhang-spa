@@ -55,6 +55,13 @@ export function useGetBill(billId: any) {
 
 // ----------------------------------------------------------------------
 
+export async function getBill(billId: any) {
+  const { data } = await axios.get(`${URL}/${billId}`);
+  return data;
+}
+
+// ----------------------------------------------------------------------
+
 export async function createBill(billData: any) {
   const { data } = await axios.post(URL, billData);
   return data;

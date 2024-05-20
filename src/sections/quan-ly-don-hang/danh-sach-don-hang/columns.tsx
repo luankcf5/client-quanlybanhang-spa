@@ -20,7 +20,7 @@ export const baseColumns: GridColDef[] = [
     field: 'nameinvoice',
     headerName: 'Số đơn hàng',
     flex: 1,
-    minWidth: 270,
+    minWidth: 180,
     hideable: false,
     renderCell: (params) => `Đơn hàng số ${params.row.id}`,
   },
@@ -59,7 +59,7 @@ export const baseColumns: GridColDef[] = [
     field: 'totalPrice',
     headerName: 'Tổng giá trị',
     flex: 1,
-    minWidth: 270,
+    minWidth: 180,
     renderCell: (params) =>
       fCurrency(
         sumBy(
@@ -72,7 +72,7 @@ export const baseColumns: GridColDef[] = [
     field: 'discountPrice',
     headerName: 'Giảm giá',
     flex: 1,
-    minWidth: 270,
+    minWidth: 180,
     renderCell: (params) => fCurrency(params.row.discountPrice),
   },
 
