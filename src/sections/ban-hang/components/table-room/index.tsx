@@ -100,7 +100,7 @@ export default function TableRoom({ setTabView, onAddNewBill }: Props) {
                       variant="contained"
                       sx={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
                     >
-                      {room.currentBill ? 'Đang hoạt động' : 'Gọi món'}
+                      {room.currentBill ? 'Đang có khách' : 'Chọn dịch vụ'}
                     </Button>
                   </Stack>
                 </Card>

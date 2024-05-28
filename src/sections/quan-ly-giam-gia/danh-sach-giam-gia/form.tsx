@@ -33,8 +33,6 @@ export default function Form() {
 
   const Schema = Yup.object().shape({
     name: Yup.string().required('Bạn chưa nhập tên cho mã giảm giá !'),
-    percent: Yup.string(),
-    price: Yup.string(),
   });
 
   const defaultValues = useMemo(
@@ -68,12 +66,13 @@ export default function Form() {
   const onSubmit = handleSubmit(async (data: any) => {
     try {
       if (!isEdit) {
-        const category = await createVoucher({ ...data });
-        onCreateNewRow(category);
+        const voucher = await createVoucher({ ...data });
+        console.log(data, voucher);
+        onCreateNewRow(voucher);
         enqueueSnackbar('Đã thêm dữ liệu mã giảm giá mới !');
       } else {
-        const category = await updateVoucher(table_selected_row.id, { ...data });
-        onUpdateRow(category);
+        const voucher = await updateVoucher(table_selected_row.id, { ...data });
+        onUpdateRow(voucher);
         enqueueSnackbar('Đã cập nhật dữ liệu mã giảm giá !');
       }
       reset();
@@ -131,9 +130,10 @@ export default function Form() {
                   type="number"
                   label="Nhập giá giảm"
                   placeholder="100000..."
-                  onChange={(event) =>
-                    setFormValue('price', event.target.value, { shouldValidate: true })
-                  }
+                  onChange={(event) => {
+                    setFormValue('price', Number(event.target.value), { shouldValidate: true });
+                    setFormValue('percent', null);
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">
@@ -152,9 +152,10 @@ export default function Form() {
                   type="number"
                   label="Nhập phần trăm giảm"
                   placeholder="100000..."
-                  onChange={(event) =>
-                    setFormValue('percent', event.target.value, { shouldValidate: true })
-                  }
+                  onChange={(event) => {
+                    setFormValue('percent', Number(event.target.value), { shouldValidate: true });
+                    setFormValue('price', null);
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="start">

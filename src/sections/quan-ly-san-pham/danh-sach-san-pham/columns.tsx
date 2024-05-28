@@ -27,13 +27,6 @@ export const baseColumns: GridColDef[] = [
     renderCell: (params) => params.row.code,
   },
   {
-    field: 'category',
-    headerName: 'Thuộc danh mục',
-    flex: 1,
-    minWidth: 220,
-    renderCell: (params) => params.row.category.name,
-  },
-  {
     field: 'price',
     headerName: 'Giá gốc sản phẩm',
     flex: 1,

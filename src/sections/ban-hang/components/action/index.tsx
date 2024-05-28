@@ -2,7 +2,6 @@ import React from 'react';
 
 import Stack from '@mui/material/Stack';
 
-import TempInvoice from './temp-invoice';
 import PaymentAction from './payment-action';
 import CancelInvoice from './cancel-invoice';
 
@@ -14,7 +13,7 @@ export default function Action() {
       <CancelInvoice />
 
       <Stack direction="row" spacing={0.5}>
-        <TempInvoice />
+        {/* <TempInvoice /> */}
 
         <PaymentAction />
       </Stack>

@@ -52,30 +52,36 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
               <Page size="C8" style={styles.page}>
                 <View style={[styles.gridContainer, styles.mb8]}>
                   <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
-                    <Text style={styles.h4}>{title}</Text>
+                    <Text style={styles.h5}>SPA SAN SAN</Text>
+
+                    <Text style={[styles.body1, styles.alignCenter]}>
+                      Khu Nam Long, Đường 1B, A3-21 Phường Hưng Thạnh, Quận Cái Răng, TP Cần Thơ
+                    </Text>
+
+                    <Text style={[styles.body1, styles.alignCenter]}>
+                      Hotline/Zalo : 0913 984 886
+                    </Text>
+
+                    <Text style={styles.h4}>HOÁ ĐƠN THANH TOÁN</Text>
 
                     <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
                     <Text>{`Ngày: ${fDateTime(invoice?.createdAt)}`}</Text>
                   </View>
                 </View>
 
-                <View style={[styles.gridContainer, styles.mb4]}>
+                <View style={[styles.gridContainer]}>
                   <View style={styles.col12}>
                     <Text style={[styles.overline]}>Khách hàng : {invoice?.customer?.name}</Text>
                   </View>
                 </View>
 
-                <Text style={[styles.overline, styles.mb4]}>Chi tiết đơn hàng</Text>
+                <Text style={[styles.overline]}>Chi tiết đơn hàng</Text>
 
                 <View style={styles.table}>
                   <View style={styles.tableHeader}>
                     <View style={styles.tableRow}>
-                      <View style={styles.tableCell_1}>
-                        <Text style={styles.subtitle2}>STT</Text>
-                      </View>
-
                       <View style={styles.tableCell_2}>
-                        <Text style={styles.subtitle2}>Tên</Text>
+                        <Text style={styles.subtitle2}>Tên dịch vụ</Text>
                       </View>
 
                       <View style={styles.tableCell_3}>
@@ -91,10 +97,6 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                   <View style={styles.tableBody}>
                     {products?.map((product: any, index: number) => (
                       <View style={styles.tableRow} key={product.id}>
-                        <View style={styles.tableCell_1}>
-                          <Text style={styles.body1}>{index + 1}</Text>
-                        </View>
-
                         <View style={styles.tableCell_2}>
                           <Text style={styles.subtitle2}>{product.product.name}</Text>
                         </View>

@@ -253,7 +253,7 @@ const renderOption = (props: any, option: any, { selected }: any) => (
       </Typography>
 
       <Typography variant="caption">
-        Giảm {fCurrency(option.price) || `${option.percent}%`}
+        Giảm {option.price ? fCurrency(option.price) : `${option.percent}%`}
       </Typography>
     </Stack>
   </Box>

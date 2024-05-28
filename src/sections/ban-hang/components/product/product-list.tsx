@@ -65,37 +65,39 @@ export default function ProductList({ products }: Props) {
         gridTemplateColumns={{ xs: 'repeat(2, 1fr)', sm: 'repeat(2, 1fr)' }}
         gap={1}
       >
-        {products.map((product: any) => (
-          <CardActionArea key={product.id} onClick={() => onAddProduct(product)}>
-            <Card sx={{ padding: 0.75 }}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <Avatar variant="square" src={product.image} sx={{ borderRadius: 0.5 }} />
-                <Stack>
-                  <TextMaxLine variant="body2" line={1}>
-                    {product.name}
-                  </TextMaxLine>
-
-                  <Stack direction="row" spacing={0.5}>
-                    <TextMaxLine
-                      line={1}
-                      color="primary"
-                      variant="caption"
-                      sx={{ textDecoration: product.discount > 0 ? 'line-through' : 'unset' }}
-                    >
-                      {fCurrency(product.price)}
+        {products
+          .sort((a: any, b: any) => a.code - b.code)
+          .map((product: any) => (
+            <CardActionArea key={product.id} onClick={() => onAddProduct(product)}>
+              <Card sx={{ padding: 0.75 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Avatar variant="square" src={product.image} sx={{ borderRadius: 0.5 }} />
+                  <Stack>
+                    <TextMaxLine variant="body2" line={1}>
+                      {product.name}
                     </TextMaxLine>
 
-                    {product.discount > 0 && (
-                      <TextMaxLine line={1} color="error" variant="caption">
-                        {fCurrency(product.price - product.discount)}
+                    <Stack direction="row" spacing={0.5}>
+                      <TextMaxLine
+                        line={1}
+                        color="primary"
+                        variant="caption"
+                        sx={{ textDecoration: product.discount > 0 ? 'line-through' : 'unset' }}
+                      >
+                        {fCurrency(product.price)}
                       </TextMaxLine>
-                    )}
+
+                      {product.discount > 0 && (
+                        <TextMaxLine line={1} color="error" variant="caption">
+                          {fCurrency(product.price - product.discount)}
+                        </TextMaxLine>
+                      )}
+                    </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
-            </Card>
-          </CardActionArea>
-        ))}
+              </Card>
+            </CardActionArea>
+          ))}
       </Box>
     </Scrollbar>
   );

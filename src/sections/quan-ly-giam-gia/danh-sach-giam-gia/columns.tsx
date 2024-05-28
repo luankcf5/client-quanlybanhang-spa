@@ -24,7 +24,8 @@ export const baseColumns: GridColDef[] = [
     headerName: 'Giá trị giảm giá',
     flex: 1,
     minWidth: 270,
-    renderCell: (params) => fCurrency(params.row.price) || `${params.row.percent}%`,
+    renderCell: (params) =>
+      params.row.price ? fCurrency(params.row.price) : `${params.row.percent}%`,
   },
   {
     type: 'date',
