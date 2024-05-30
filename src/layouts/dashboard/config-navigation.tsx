@@ -34,11 +34,13 @@ export function useNavData() {
     () => [
       {
         subheader: 'Chức năng bán hàng',
+        roles: ['admin', 'staff'],
         items: [
           {
             title: 'Chức năng bán hàng',
             path: paths.dashboard.sale.root,
             icon: ICONS.sale,
+            roles: ['admin', 'staff'],
           },
         ],
       },
@@ -49,63 +51,26 @@ export function useNavData() {
             title: 'Quản lý nhân viên',
             path: paths.dashboard.staff.root,
             icon: ICONS.staff,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh sách nhân viên',
                 path: paths.dashboard.staff.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
             ],
           },
-          // {
-          //   title: 'Nhật ký hệ thống',
-          //   path: paths.dashboard.logsystem.root,
-          //   icon: ICONS.log,
-          //   children: [
-          //     {
-          //       title: 'Nhật ký truy cập',
-          //       path: paths.dashboard.logsystem.login,
-          //       roles: ['teacher'],
-          //     },
-          //     {
-          //       title: 'Tra cứu tài khoản',
-          //       path: paths.dashboard.logsystem.search,
-          //       roles: ['teacher'],
-          //     },
-          //   ],
-          // },
-          // {
-          //   title: 'Quản lý chức năng',
-          //   path: paths.dashboard.permission.root,
-          //   icon: ICONS.permission,
-          //   children: [
-          //     {
-          //       title: 'Các nhóm chức năng',
-          //       path: paths.dashboard.permission.group,
-          //       roles: ['teacher'],
-          //     },
-          //     {
-          //       title: 'Danh sách chức năng',
-          //       path: paths.dashboard.permission.list,
-          //       roles: ['teacher'],
-          //     },
-          //   ],
-          // },
           {
             title: 'Quản lý quyền hạn',
             path: paths.dashboard.role.root,
             icon: ICONS.role,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh sách quyền hạn',
                 path: paths.dashboard.role.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
-              // {
-              //   title: 'Cấp quyền người dùng',
-              //   path: paths.dashboard.role.grant,
-              //   roles: ['teacher'],
-              // },
             ],
           },
         ],
@@ -117,11 +82,12 @@ export function useNavData() {
             title: 'Quản lý phòng bàn',
             path: paths.dashboard.table.root,
             icon: ICONS.table,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh sách phòng bàn',
                 path: paths.dashboard.table.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
             ],
           },
@@ -129,16 +95,17 @@ export function useNavData() {
             title: 'Quản lý sản phẩm',
             path: paths.dashboard.product.root,
             icon: ICONS.product,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh mục sản phẩm',
                 path: paths.dashboard.product.category,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
               {
                 title: 'Danh sách sản phẩm',
                 path: paths.dashboard.product.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
             ],
           },
@@ -146,11 +113,12 @@ export function useNavData() {
             title: 'Quản lý giảm giá',
             path: paths.dashboard.voucher.root,
             icon: ICONS.voucher,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh sách giảm giá',
                 path: paths.dashboard.voucher.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
             ],
           },
@@ -158,11 +126,12 @@ export function useNavData() {
             title: 'Quản lý khách hàng',
             path: paths.dashboard.customer.root,
             icon: ICONS.customer,
+            roles: ['admin', 'staff'],
             children: [
               {
                 title: 'Danh sách khách hàng',
                 path: paths.dashboard.customer.list,
-                roles: ['teacher'],
+                roles: ['admin', 'staff'],
               },
             ],
           },
@@ -170,17 +139,13 @@ export function useNavData() {
             title: 'Quản lý đơn hàng',
             path: paths.dashboard.order.root,
             icon: ICONS.order,
+            roles: ['admin'],
             children: [
               {
                 title: 'Danh sách đơn hàng',
                 path: paths.dashboard.order.list,
-                roles: ['teacher'],
+                roles: ['admin'],
               },
-              // {
-              //   title: 'Đơn hàng đã huỷ',
-              //   path: paths.dashboard.order.cancel,
-              //   roles: ['teacher'],
-              // },
             ],
           },
         ],

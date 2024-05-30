@@ -18,7 +18,6 @@ import NoteProduct from './note-product';
 import NoteInvoice from './note-invoice';
 import { useSaleContext } from '../../context';
 import VoucherInvoice from './voucher-invoice';
-import DeliveryInvoice from './delivery-invoice';
 import CustomerInvoice from './customer-invoice';
 import IconButtonAnimate from './icon-button-animate';
 import IncrementerButton from '../../common/incrementer-button';
@@ -131,7 +130,7 @@ export default function Invoice() {
 
               {product.note && (
                 <Typography variant="caption" fontStyle="italic">
-                  <strong>Ghi chú: </strong> {product.note}
+                  <strong>Kỹ thuật viên: </strong> {product.note}
                 </Typography>
               )}
             </Card>
@@ -159,7 +158,7 @@ export default function Invoice() {
         </Stack>
 
         <Stack direction="row" spacing={0.5}>
-          <DeliveryInvoice customerSelected={customerSelected} />
+          {/* <DeliveryInvoice customerSelected={customerSelected} /> */}
 
           <VoucherInvoice
             discountPrice={discountPrice}

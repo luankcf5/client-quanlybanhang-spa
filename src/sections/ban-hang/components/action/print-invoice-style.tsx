@@ -28,9 +28,10 @@ const styles = StyleSheet.create({
   alignRight: { textAlign: 'right' },
   alignCenter: { textAlign: 'center' },
   page: {
-    padding: '10px',
-    fontSize: 6,
-    lineHeight: 1.6,
+    paddingBottom: '20px',
+    fontSize: 8,
+    // lineHeight: 1.6,
+    fontWeight: 900,
     fontFamily: 'Roboto',
     backgroundColor: '#FFFFFF',
   },

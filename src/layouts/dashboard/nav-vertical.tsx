@@ -8,6 +8,8 @@ import { usePathname } from 'src/routes/hooks';
 
 import { useResponsive } from 'src/hooks/use-responsive';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import Scrollbar from 'src/components/scrollbar';
 import { NavSectionVertical } from 'src/components/nav-section';
 
@@ -25,11 +27,13 @@ type Props = {
 export default function NavVertical({ openNav, onCloseNav }: Props) {
   const pathname = usePathname();
 
+  const { user } = useAuthContext();
+
   const lgUp = useResponsive('up', 'lg');
 
   const navData = useNavData();
 
-  const role = 'teacher';
+  const role = user?.roles[0].slug;
 
   useEffect(() => {
     if (openNav) {

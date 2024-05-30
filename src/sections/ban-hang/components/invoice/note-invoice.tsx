@@ -42,7 +42,7 @@ export default function NoteInvoice() {
     <>
       <IconButtonAnimate onClick={popover.onOpen} disabled={!selectedBill}>
         <Badge variant="dot" color="error" invisible={!noteValue}>
-          <Iconify icon="material-symbols:note-alt" />
+          <Iconify icon="icon-park-solid:people-unknown" />
         </Badge>
       </IconButtonAnimate>
 
@@ -52,14 +52,14 @@ export default function NoteInvoice() {
             multiline
             rows={6}
             size="small"
-            placeholder="Ghi chú về đơn hàng..."
+            placeholder="Kỹ thuật viên..."
             value={noteValue}
             onChange={(event) => setNoteValue(event.target.value)}
           />
 
           <Stack direction="row" justifyContent="end" spacing={1}>
             <Button size="small" color="error" onClick={handleReset} disabled={!noteValue}>
-              Xoá ghi chú
+              Xoá thông tin
             </Button>
 
             <Button

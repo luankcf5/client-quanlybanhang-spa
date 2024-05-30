@@ -49,20 +49,23 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
         <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
           <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
             <Document>
-              <Page size="C8" style={styles.page}>
+              <Page wrap={false} size="C8" style={styles.page}>
                 <View style={[styles.gridContainer, styles.mb8]}>
                   <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
                     <Text style={styles.h5}>SPA SAN SAN</Text>
 
                     <Text style={[styles.body1, styles.alignCenter]}>
-                      Khu Nam Long, Đường 1B, A3-21 Phường Hưng Thạnh, Quận Cái Răng, TP Cần Thơ
+                      A3-21 Đường 1B Khu Nam Long
+                    </Text>
+                    <Text style={[styles.body1, styles.alignCenter]}>
+                      Hưng Thạnh, Q.Cái Răng, TP.Cần Thơ
                     </Text>
 
                     <Text style={[styles.body1, styles.alignCenter]}>
                       Hotline/Zalo : 0913 984 886
                     </Text>
 
-                    <Text style={styles.h4}>HOÁ ĐƠN THANH TOÁN</Text>
+                    <Text style={styles.h4}>{title}</Text>
 
                     <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
                     <Text>{`Ngày: ${fDateTime(invoice?.createdAt)}`}</Text>
@@ -152,7 +155,7 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
 
                     <View style={[styles.tableRow, styles.noBorder]}>
                       <View style={styles.tableCell_5}>
-                        <Text style={styles.body1}>Ghi chú : </Text>
+                        <Text style={styles.body1}>Kỹ thuật viên : </Text>
                       </View>
                       <View style={[styles.tableCell_5, styles.alignRight]}>
                         <Text style={styles.body1}>{invoice?.note || 'Không'}</Text>

@@ -55,7 +55,7 @@ export default function PaymentAction() {
             `${index + 1}. ${product.product.name} x ${product.amount} = ${fCurrency(
               (product.product.price - product.product.discount) * product.amount
             )}\n`
-        )}Ghi chú đơn hàng: ${bill?.note || 'không có'}\nTổng tiền: ${fCurrency(
+        )}Kỹ thuật viên: ${bill?.note || 'Không có'}\nTổng tiền: ${fCurrency(
           totalPrice
         )}\nGiảm giá: ${fCurrency(bill?.discountPrice || 0)}\nThành tiền: ${fCurrency(
           totalPrice - (bill?.discountPrice || 0)
@@ -203,7 +203,7 @@ export default function PaymentAction() {
                     </Stack>
 
                     {product.note && (
-                      <Typography variant="caption">Ghi chú : {product.note}</Typography>
+                      <Typography variant="caption">Kỹ thuật viên : {product.note}</Typography>
                     )}
                   </Grid>
                 ))}
@@ -219,7 +219,7 @@ export default function PaymentAction() {
             {bill?.note && (
               <>
                 <Grid xs={6}>
-                  <Typography variant="body2">Ghi chú đơn hàng :</Typography>
+                  <Typography variant="body2">Kỹ thuật viên :</Typography>
                 </Grid>
                 <Grid xs={6}>
                   <Typography variant="body2" align="right">
