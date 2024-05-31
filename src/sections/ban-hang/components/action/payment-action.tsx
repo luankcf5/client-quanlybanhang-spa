@@ -113,7 +113,7 @@ export default function PaymentAction() {
         size="small"
         color="primary"
         onClick={handlePayment}
-        disabled={selectedBill?.statusId !== 1}
+        disabled={selectedBill?.statusId !== 1 || products.length === 0}
       >
         Thanh toán
       </Button>

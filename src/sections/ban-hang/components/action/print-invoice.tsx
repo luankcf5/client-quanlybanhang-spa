@@ -68,7 +68,7 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                     <Text style={styles.h4}>{title}</Text>
 
                     <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
-                    <Text>{`Ngày: ${fDateTime(invoice?.createdAt)}`}</Text>
+                    <Text>{`${fDateTime(invoice?.createdAt)}`}</Text>
                   </View>
                 </View>
 
@@ -162,16 +162,18 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                       </View>
                     </View>
 
-                    <View style={[styles.tableRow, styles.noBorder]}>
-                      <View style={styles.tableCell_5}>
-                        <Text style={styles.body1}>Giảm giá : </Text>
+                    {invoice?.discountPrice > 0 && (
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Giảm giá : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>
+                            {fCurrency(invoice?.discountPrice || '0đ')}
+                          </Text>
+                        </View>
                       </View>
-                      <View style={[styles.tableCell_5, styles.alignRight]}>
-                        <Text style={styles.body1}>
-                          {fCurrency(invoice?.discountPrice || '0đ')}
-                        </Text>
-                      </View>
-                    </View>
+                    )}
 
                     <View style={[styles.tableRow, styles.noBorder]}>
                       <View style={styles.tableCell_5}>
