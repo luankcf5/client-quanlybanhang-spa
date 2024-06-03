@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   alignRight: { textAlign: 'right' },
   alignCenter: { textAlign: 'center' },
   page: {
-    padding: '20px 0px',
+    padding: '0px',
     fontSize: 8,
     lineHeight: 1.6,
     fontWeight: 900,

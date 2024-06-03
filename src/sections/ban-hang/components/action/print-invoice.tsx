@@ -209,6 +209,10 @@ export default function PrintInvoice({
                         </Text>
                       </View>
                     </View>
+
+                    <View style={[styles.h4, styles.alignCenter]}>
+                      <Text style={styles.h4}>Chân thành cảm ơn quý khách ! </Text>
+                    </View>
                   </View>
                 </View>
               </Page>
