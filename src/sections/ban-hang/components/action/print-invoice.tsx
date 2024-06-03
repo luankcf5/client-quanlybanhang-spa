@@ -22,9 +22,17 @@ type InvoicePDFProps = {
   products: any;
   open: boolean;
   onClose: VoidFunction;
+  moneyPay?: number;
 };
 
-export default function PrintInvoice({ title, invoice, products, open, onClose }: InvoicePDFProps) {
+export default function PrintInvoice({
+  title,
+  invoice,
+  products,
+  open,
+  moneyPay,
+  onClose,
+}: InvoicePDFProps) {
   const totalPrice = sumBy(
     products,
     (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
@@ -49,7 +57,7 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
         <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
           <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
             <Document>
-              <Page wrap={false} size="C8" style={styles.page}>
+              <Page wrap={false} size="C7" style={styles.page}>
                 <View style={[styles.gridContainer, styles.mb8]}>
                   <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
                     <Text style={styles.h5}>SPA SAN SAN</Text>
@@ -74,11 +82,11 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
 
                 <View style={[styles.gridContainer]}>
                   <View style={styles.col12}>
-                    <Text style={[styles.overline]}>Khách hàng : {invoice?.customer?.name}</Text>
+                    <Text style={[styles.subtitle2]}>Khách hàng : {invoice?.customer?.name}</Text>
                   </View>
                 </View>
 
-                <Text style={[styles.overline]}>Chi tiết đơn hàng</Text>
+                <Text style={[styles.subtitle2]}>Chi tiết đơn hàng</Text>
 
                 <View style={styles.table}>
                   <View style={styles.tableHeader}>
@@ -92,7 +100,7 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                       </View>
 
                       <View style={styles.tableCell_3}>
-                        <Text style={styles.subtitle2}>Đơn giá</Text>
+                        <Text style={[styles.subtitle2, styles.alignRight]}>Đơn giá</Text>
                       </View>
                     </View>
                   </View>
@@ -109,7 +117,7 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                         </View>
 
                         <View style={styles.tableCell_3}>
-                          <Text style={styles.body1}>
+                          <Text style={[styles.body1, styles.alignRight]}>
                             {fCurrency(product.product.price - product.product.discount)}
                           </Text>
                         </View>
@@ -142,12 +150,28 @@ export default function PrintInvoice({ title, invoice, products, open, onClose }
                             <Text style={styles.body1}>{invoice?.name || 'Không'}</Text>
                           </View>
                         </View>
+                      </>
+                    )}
+
+                    {moneyPay && (
+                      <>
                         <View style={[styles.tableRow, styles.noBorder]}>
                           <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Phí giao hàng : </Text>
+                            <Text style={styles.body1}>Tiền khách đưa : </Text>
                           </View>
                           <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>{fCurrency(invoice?.fee) || '0đ'}</Text>
+                            <Text style={styles.body1}>{fCurrency(moneyPay) || '0đ'}</Text>
+                          </View>
+                        </View>
+                        <View style={[styles.tableRow, styles.noBorder]}>
+                          <View style={styles.tableCell_5}>
+                            <Text style={styles.body1}>Tiền thối : </Text>
+                          </View>
+                          <View style={[styles.tableCell_5, styles.alignRight]}>
+                            <Text style={styles.body1}>
+                              {fCurrency(moneyPay - totalPrice - Number(invoice?.discountPrice)) ||
+                                '0đ'}
+                            </Text>
                           </View>
                         </View>
                       </>

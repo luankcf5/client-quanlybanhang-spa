@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { sumBy } from 'lodash';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Unstable_Grid2';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
@@ -42,6 +43,12 @@ export default function PaymentAction() {
     products,
     (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
   );
+
+  const [moneyPay, setMoneyPay] = useState(0);
+
+  useEffect(() => {
+    setMoneyPay(totalPrice - Number(bill?.discountPrice));
+  }, [totalPrice, bill]);
 
   const handleTelegramNotification = useCallback(async () => {
     const CHANNEL_ID = '@phanmembanhangspa';
@@ -240,16 +247,6 @@ export default function PaymentAction() {
             </Grid>
 
             <Grid xs={6}>
-              <Typography variant="body2">Giao hàng :</Typography>
-            </Grid>
-
-            <Grid xs={6}>
-              <Typography variant="body2" align="right">
-                <Typography>{fCurrency(Number(bill?.fee)) || '0đ'}</Typography>
-              </Typography>
-            </Grid>
-
-            <Grid xs={6}>
               <Typography variant="body2">Tổng tiền:</Typography>
             </Grid>
 
@@ -258,6 +255,29 @@ export default function PaymentAction() {
                 <Typography variant="h6">
                   {fCurrency(totalPrice - Number(bill?.discountPrice)) || '0đ'}
                 </Typography>
+              </Typography>
+            </Grid>
+
+            <Grid xs={6}>
+              <Typography variant="body2">Tiền khách đưa :</Typography>
+            </Grid>
+
+            <Grid xs={6}>
+              <TextField
+                fullWidth
+                size="small"
+                value={moneyPay}
+                onChange={(event) => setMoneyPay(Number(event.target.value))}
+              />
+            </Grid>
+
+            <Grid xs={6}>
+              <Typography variant="body2">Tiền thối :</Typography>
+            </Grid>
+
+            <Grid xs={6}>
+              <Typography variant="body2" align="right">
+                {fCurrency(Number(moneyPay - totalPrice - Number(bill?.discountPrice))) || '0đ'}
               </Typography>
             </Grid>
           </Grid>
@@ -280,6 +300,7 @@ export default function PaymentAction() {
         products={products}
         open={openPrint.value}
         onClose={handlePrintClose}
+        moneyPay={moneyPay}
       />
     </>
   );
