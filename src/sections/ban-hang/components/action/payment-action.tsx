@@ -113,6 +113,8 @@ export default function PaymentAction() {
     onGetBill(null);
   }, [confirmAction, openPrint, onGetBill]);
 
+  console.log(moneyPay - (totalPrice - Number(bill?.discountPrice)));
+
   return (
     <>
       <Button
@@ -277,7 +279,7 @@ export default function PaymentAction() {
 
             <Grid xs={6}>
               <Typography variant="body2" align="right">
-                {fCurrency(Number(moneyPay - totalPrice - Number(bill?.discountPrice))) || '0đ'}
+                {fCurrency(Number(moneyPay - (totalPrice - Number(bill?.discountPrice)))) || '0đ'}
               </Typography>
             </Grid>
           </Grid>

@@ -169,8 +169,9 @@ export default function PrintInvoice({
                           </View>
                           <View style={[styles.tableCell_5, styles.alignRight]}>
                             <Text style={styles.body1}>
-                              {fCurrency(moneyPay - totalPrice - Number(invoice?.discountPrice)) ||
-                                '0đ'}
+                              {fCurrency(
+                                moneyPay - (totalPrice - Number(invoice?.discountPrice))
+                              ) || '0đ'}
                             </Text>
                           </View>
                         </View>
