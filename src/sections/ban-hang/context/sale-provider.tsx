@@ -123,6 +123,14 @@ export function SaleProvider({ children }: Props) {
         return product;
       });
       setValue('products', updateProducts);
+      // @ts-ignore
+      updateBill(values.selectedBill?.id, {
+        orders: updateProducts.map((prod) => ({
+          productId: prod.product.id,
+          amount: prod.amount,
+          note: prod.note,
+        })),
+      });
     },
     [values.products, setValue]
   );
