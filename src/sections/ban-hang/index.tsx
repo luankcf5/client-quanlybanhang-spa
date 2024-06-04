@@ -23,7 +23,7 @@ import ProductContainer from './components/product';
 export default function BanHang() {
   const { bills } = useGetBills();
 
-  const [tabView, setTabView] = useState('1');
+  const [tabView, setTabView] = useState('2');
 
   const [billList, setBillList] = useState<IBill[]>([]);
 
