@@ -113,8 +113,6 @@ export default function PaymentAction() {
     onGetBill(null);
   }, [confirmAction, openPrint, onGetBill]);
 
-  console.log(moneyPay - (totalPrice - Number(bill?.discountPrice)));
-
   return (
     <>
       <Button
@@ -188,7 +186,7 @@ export default function PaymentAction() {
               </Stack>
               <Scrollbar
                 sx={{
-                  height: 'calc(100vh - 400px)',
+                  height: 'calc(100vh - 420px)',
                 }}
               >
                 {products.map((product: any, index: number) => (

@@ -45,7 +45,7 @@ export default function InvoiceChange({ onAddNewBill }: Props) {
   }, [onAddNewBill, onGetBill, enqueueSnackbar]);
   return (
     <Stack>
-      <Button variant="contained" color="secondary" onClick={handleNewBill}>
+      <Button variant="contained" color="secondary" onClick={handleNewBill} disabled>
         Hoá đơn mới
       </Button>
     </Stack>

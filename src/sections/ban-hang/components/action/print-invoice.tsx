@@ -54,172 +54,169 @@ export default function PrintInvoice({
             </IconButton>
           </Tooltip>
         </DialogActions>
-        <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
-          <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
-            <Document>
-              <Page wrap={false} size="C7" style={styles.page}>
-                <View style={[styles.gridContainer, styles.mb8]}>
-                  <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
-                    <Text style={styles.h5}>SPA SAN SAN</Text>
+        <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+          <Document>
+            <Page wrap={false} size="A7" style={styles.page}>
+              <View style={[styles.gridContainer, styles.mb8]}>
+                <View style={{ alignItems: 'center', width: '100%', flexDirection: 'column' }}>
+                  <Text style={styles.h3}>SPA SAN SAN</Text>
 
-                    <Text style={[styles.body1, styles.alignCenter]}>
-                      A3-21 Đường 1B Khu Nam Long
-                    </Text>
-                    <Text style={[styles.body1, styles.alignCenter]}>
-                      Hưng Thạnh, Q.Cái Răng, TP.Cần Thơ
-                    </Text>
+                  <Text style={[styles.body1, styles.alignCenter]}>
+                    A3-21 Đường 1B Khu Nam Long
+                  </Text>
+                  <Text style={[styles.body1, styles.alignCenter]}>
+                    Hưng Thạnh, Q.Cái Răng, TP.Cần Thơ
+                  </Text>
 
-                    <Text style={[styles.body1, styles.alignCenter]}>
-                      Hotline/Zalo : 0913 984 886
-                    </Text>
+                  <Text style={[styles.body1, styles.alignCenter]}>
+                    Hotline/Zalo : 0913 984 886
+                  </Text>
 
-                    <Text style={styles.h4}>{title}</Text>
+                  <Text style={styles.h4}>{title}</Text>
 
-                    <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
-                    <Text>{`${fDateTime(invoice?.createdAt)}`}</Text>
+                  <Text style={styles.h4}>Hoá đơn số {invoice?.id}</Text>
+                  <Text>{`${fDateTime(invoice?.createdAt)}`}</Text>
+                </View>
+              </View>
+
+              <View style={[styles.gridContainer]}>
+                <View style={styles.col12}>
+                  <Text style={[styles.subtitle2]}>Khách hàng : {invoice?.customer?.name}</Text>
+                </View>
+              </View>
+
+              <Text style={[styles.subtitle2]}>Chi tiết đơn hàng</Text>
+
+              <View style={styles.table}>
+                <View style={styles.tableHeader}>
+                  <View style={styles.tableRow}>
+                    <View style={styles.tableCell_2}>
+                      <Text style={styles.subtitle2}>Tên dịch vụ</Text>
+                    </View>
+
+                    <View style={styles.tableCell_3}>
+                      <Text style={styles.subtitle2}>SL</Text>
+                    </View>
+
+                    <View style={styles.tableCell_3}>
+                      <Text style={[styles.subtitle2, styles.alignRight]}>Đơn giá</Text>
+                    </View>
                   </View>
                 </View>
 
-                <View style={[styles.gridContainer]}>
-                  <View style={styles.col12}>
-                    <Text style={[styles.subtitle2]}>Khách hàng : {invoice?.customer?.name}</Text>
-                  </View>
-                </View>
-
-                <Text style={[styles.subtitle2]}>Chi tiết đơn hàng</Text>
-
-                <View style={styles.table}>
-                  <View style={styles.tableHeader}>
-                    <View style={styles.tableRow}>
+                <View style={styles.tableBody}>
+                  {products?.map((product: any, index: number) => (
+                    <View style={styles.tableRow} key={product.id}>
                       <View style={styles.tableCell_2}>
-                        <Text style={styles.subtitle2}>Tên dịch vụ</Text>
+                        <Text style={styles.subtitle2}>{product.product.name}</Text>
                       </View>
 
                       <View style={styles.tableCell_3}>
-                        <Text style={styles.subtitle2}>SL</Text>
+                        <Text style={styles.body1}>{product.amount}</Text>
                       </View>
 
                       <View style={styles.tableCell_3}>
-                        <Text style={[styles.subtitle2, styles.alignRight]}>Đơn giá</Text>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View style={styles.tableBody}>
-                    {products?.map((product: any, index: number) => (
-                      <View style={styles.tableRow} key={product.id}>
-                        <View style={styles.tableCell_2}>
-                          <Text style={styles.subtitle2}>{product.product.name}</Text>
-                        </View>
-
-                        <View style={styles.tableCell_3}>
-                          <Text style={styles.body1}>{product.amount}</Text>
-                        </View>
-
-                        <View style={styles.tableCell_3}>
-                          <Text style={[styles.body1, styles.alignRight]}>
-                            {fCurrency(product.product.price - product.product.discount)}
-                          </Text>
-                        </View>
-                      </View>
-                    ))}
-
-                    {invoice?.name && (
-                      <>
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                          <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Địa chỉ giao hàng : </Text>
-                          </View>
-                          <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>{invoice?.address || 'Không'}</Text>
-                          </View>
-                        </View>
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                          <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Điện thoại giao hàng : </Text>
-                          </View>
-                          <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>{invoice?.phone || 'Không'}</Text>
-                          </View>
-                        </View>
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                          <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Người nhận hàng : </Text>
-                          </View>
-                          <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>{invoice?.name || 'Không'}</Text>
-                          </View>
-                        </View>
-                      </>
-                    )}
-
-                    {moneyPay && (
-                      <>
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                          <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Tiền khách đưa : </Text>
-                          </View>
-                          <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>{fCurrency(moneyPay) || '0đ'}</Text>
-                          </View>
-                        </View>
-                        <View style={[styles.tableRow, styles.noBorder]}>
-                          <View style={styles.tableCell_5}>
-                            <Text style={styles.body1}>Tiền thối : </Text>
-                          </View>
-                          <View style={[styles.tableCell_5, styles.alignRight]}>
-                            <Text style={styles.body1}>
-                              {fCurrency(
-                                moneyPay - (totalPrice - Number(invoice?.discountPrice))
-                              ) || '0đ'}
-                            </Text>
-                          </View>
-                        </View>
-                      </>
-                    )}
-
-                    <View style={[styles.tableRow, styles.noBorder]}>
-                      <View style={styles.tableCell_5}>
-                        <Text style={styles.body1}>Kỹ thuật viên : </Text>
-                      </View>
-                      <View style={[styles.tableCell_5, styles.alignRight]}>
-                        <Text style={styles.body1}>{invoice?.note || 'Không'}</Text>
-                      </View>
-                    </View>
-
-                    {invoice?.discountPrice > 0 && (
-                      <View style={[styles.tableRow, styles.noBorder]}>
-                        <View style={styles.tableCell_5}>
-                          <Text style={styles.body1}>Giảm giá : </Text>
-                        </View>
-                        <View style={[styles.tableCell_5, styles.alignRight]}>
-                          <Text style={styles.body1}>
-                            {fCurrency(invoice?.discountPrice || '0đ')}
-                          </Text>
-                        </View>
-                      </View>
-                    )}
-
-                    <View style={[styles.tableRow, styles.noBorder]}>
-                      <View style={styles.tableCell_5}>
-                        <Text style={styles.h4}>Tổng tiền : </Text>
-                      </View>
-                      <View style={[styles.tableCell_5, styles.alignRight]}>
-                        <Text style={styles.h4}>
-                          {fCurrency(totalPrice - Number(invoice?.discountPrice) || '0đ')}
+                        <Text style={[styles.body1, styles.alignRight]}>
+                          {fCurrency(product.product.price - product.product.discount)}
                         </Text>
                       </View>
                     </View>
+                  ))}
 
-                    <View style={[styles.h4, styles.alignCenter]}>
-                      <Text style={styles.h4}>Chân thành cảm ơn quý khách ! </Text>
+                  {invoice?.name && (
+                    <>
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Địa chỉ giao hàng : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>{invoice?.address || 'Không'}</Text>
+                        </View>
+                      </View>
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Điện thoại giao hàng : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>{invoice?.phone || 'Không'}</Text>
+                        </View>
+                      </View>
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Người nhận hàng : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>{invoice?.name || 'Không'}</Text>
+                        </View>
+                      </View>
+                    </>
+                  )}
+
+                  {moneyPay && (
+                    <>
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Tiền khách đưa : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>{fCurrency(moneyPay) || '0đ'}</Text>
+                        </View>
+                      </View>
+                      <View style={[styles.tableRow, styles.noBorder]}>
+                        <View style={styles.tableCell_5}>
+                          <Text style={styles.body1}>Tiền thối : </Text>
+                        </View>
+                        <View style={[styles.tableCell_5, styles.alignRight]}>
+                          <Text style={styles.body1}>
+                            {fCurrency(moneyPay - (totalPrice - Number(invoice?.discountPrice))) ||
+                              '0đ'}
+                          </Text>
+                        </View>
+                      </View>
+                    </>
+                  )}
+
+                  <View style={[styles.tableRow, styles.noBorder]}>
+                    <View style={styles.tableCell_5}>
+                      <Text style={styles.body1}>Kỹ thuật viên : </Text>
+                    </View>
+                    <View style={[styles.tableCell_5, styles.alignRight]}>
+                      <Text style={styles.body1}>{invoice?.note || 'Không'}</Text>
                     </View>
                   </View>
+
+                  {invoice?.discountPrice > 0 && (
+                    <View style={[styles.tableRow, styles.noBorder]}>
+                      <View style={styles.tableCell_5}>
+                        <Text style={styles.body1}>Giảm giá : </Text>
+                      </View>
+                      <View style={[styles.tableCell_5, styles.alignRight]}>
+                        <Text style={styles.body1}>
+                          {fCurrency(invoice?.discountPrice || '0đ')}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+
+                  <View style={[styles.tableRow, styles.noBorder]}>
+                    <View style={styles.tableCell_5}>
+                      <Text style={styles.h4}>Tổng tiền : </Text>
+                    </View>
+                    <View style={[styles.tableCell_5, styles.alignRight]}>
+                      <Text style={styles.h4}>
+                        {fCurrency(totalPrice - Number(invoice?.discountPrice) || '0đ')}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View style={[styles.h4, styles.alignCenter]}>
+                    <Text style={styles.h4}>Chân thành cảm ơn quý khách ! </Text>
+                  </View>
                 </View>
-              </Page>
-            </Document>
-          </PDFViewer>
-        </Box>
+              </View>
+            </Page>
+          </Document>
+        </PDFViewer>
       </Box>
     </Dialog>
   );

@@ -31,11 +31,11 @@ export default function DanhSachDonHang() {
         add_multi_data: false,
         export_data: true,
         selected_data: true,
-        delete_multi: false,
+        delete_multi: true,
         change_status_multi: false,
         active_row: false,
         edit_row: false,
-        delete_row: false,
+        delete_row: true,
       },
     });
   }, [bills]);
