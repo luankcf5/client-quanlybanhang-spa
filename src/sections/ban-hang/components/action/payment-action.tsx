@@ -91,6 +91,7 @@ export default function PaymentAction() {
       statusId: 2,
       roomId: null,
     });
+
     if (bill?.customer) {
       updateCustomer(bill?.customer.id, {
         point: bill.customer.point + Math.round(totalPrice / 100),
@@ -100,6 +101,7 @@ export default function PaymentAction() {
   }, [
     totalPrice,
     openPrint,
+    products,
     selectedBill,
     getBill,
     updateBill,

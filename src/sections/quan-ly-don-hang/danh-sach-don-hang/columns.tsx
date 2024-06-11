@@ -63,7 +63,7 @@ export const baseColumns: GridColDef[] = [
     renderCell: (params) =>
       fCurrency(
         sumBy(
-          params.row.products,
+          JSON.parse(params.row.log),
           (prod: any) => prod.amount * (prod.product.price - prod.product.discount)
         )
       ),
