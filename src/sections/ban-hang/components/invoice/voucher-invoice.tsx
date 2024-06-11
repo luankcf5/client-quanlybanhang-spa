@@ -121,7 +121,7 @@ export default function VoucherInvoice({
 
   return (
     <>
-      <IconButtonAnimate onClick={popover.onOpen} disabled={!selectedBill}>
+      <IconButtonAnimate onClick={popover.onOpen} disabled>
         <Badge variant="dot" color="error" invisible={discountPrice <= 0}>
           <Iconify icon="mdi:voucher" />
         </Badge>
