@@ -119,6 +119,13 @@ export default function PrintInvoice({
                         <Text style={[styles.body1, styles.alignRight]}>
                           {fCurrency(product.product.price - product.product.discount)}
                         </Text>
+
+                        <Text style={[styles.body1, styles.alignRight]}>
+                          ={' '}
+                          {fCurrency(
+                            (product.product.price - product.product.discount) * product.amount
+                          )}
+                        </Text>
                       </View>
                     </View>
                   ))}
