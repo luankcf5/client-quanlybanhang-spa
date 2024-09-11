@@ -27,7 +27,7 @@ export default function TempInvoice() {
   }, [getBill, selectedBill, setBill, openPrint]);
   return (
     <>
-      <Button variant="contained" size="small" color="warning" onClick={handleOpenTemp}>
+      <Button variant="contained" size="small" color="warning" onClick={handleOpenTemp} disabled>
         Tạm tính
       </Button>
 
