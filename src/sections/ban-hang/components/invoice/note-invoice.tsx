@@ -3,7 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 
 import { updateBill } from 'src/api/bill';
 
@@ -48,14 +51,20 @@ export default function NoteInvoice() {
 
       <CustomPopover open={popover.open} onClose={popover.onClose} arrow="bottom-right">
         <Stack spacing={1} sx={{ padding: 1, width: 420 }}>
-          <TextField
-            multiline
-            rows={6}
-            size="small"
-            placeholder="Kỹ thuật viên..."
-            value={noteValue}
-            onChange={(event) => setNoteValue(event.target.value)}
-          />
+          <FormControl fullWidth>
+            <InputLabel>Kỹ thuật viên...</InputLabel>
+            <Select
+              label="Kỹ thuật viên..."
+              value={noteValue}
+              onChange={(event) => setNoteValue(event.target.value)}
+            >
+              {['Thi', 'Ngân', 'Hoàng'].map((option: string) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <Stack direction="row" justifyContent="end" spacing={1}>
             <Button size="small" color="error" onClick={handleReset} disabled={!noteValue}>
