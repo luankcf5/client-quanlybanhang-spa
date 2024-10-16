@@ -121,6 +121,7 @@ export default function TableRoom({ setTabView, onAddNewBill }: Props) {
                   <Typography variant="subtitle2">Bàn mới</Typography>
                   <Iconify width={56} icon="ic:baseline-table-restaurant" />
                   <Button
+                    disabled
                     fullWidth
                     color="secondary"
                     variant="contained"
