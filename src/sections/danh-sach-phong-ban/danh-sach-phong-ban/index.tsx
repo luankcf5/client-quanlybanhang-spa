@@ -28,7 +28,7 @@ export default function DanhSachPhongBan() {
       })),
       table_config: {
         table_name: 'rooms',
-        add_data: true,
+        add_data: false,
         add_multi_data: false,
         export_data: true,
         selected_data: true,
