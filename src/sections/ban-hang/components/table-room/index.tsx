@@ -109,7 +109,8 @@ export default function TableRoom({ setTabView, onAddNewBill }: Props) {
           ))}
 
           <Grid xs={6} md={2}>
-            <CardActionArea onClick={openForm.onTrue}>
+            {/* <CardActionArea onClick={openForm.onTrue}> */}
+            <CardActionArea>
               <Card sx={{ aspectRatio: '1/1', boxShadow: (theme) => theme.shadows[3] }}>
                 <Stack
                   justifyContent="space-between"
